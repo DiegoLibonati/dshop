@@ -1,16 +1,17 @@
 // ### GENERALES ###
 
 // ### CONTAINER MFE ###
-// TODO: Arreglar tipado Header
+// TODO: Fix typed header
 
 // ### HOME MFE ###
 
 // ### PRODUCT_DETAIL MFE ###
+// TODO: Modularization of tsconfig files does not work in MFE Vue
 
 // ### SHARED REACT MFE ###
 
 // ### SHARED ANGULAR MFE ###
-// TODO: Testing. No esta funcionando (dejo de funcionar de la nada). Debbugear
+// TODO: Testing. It's not working (it stopped working out of nowhere).
 
 // ### SHARED CORE MFE ###
 

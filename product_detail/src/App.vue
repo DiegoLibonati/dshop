@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, provide, watch } from "vue";
 
-import { AppProps } from "@src/entities/props";
+import type { AppProps } from "@src/entities/props";
 
 import ProductSection from '@src/containers/ProductSection/ProductSection.vue';
 import ReviewsSection from "@src/containers/ReviewsSection/ReviewsSection.vue";

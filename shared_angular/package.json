@@ -2,7 +2,7 @@
   "name": "shared_angular",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack serve --config config/webpack.dev.js",
+    "dev": "webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.prod.js",
     "test": "jest --watchAll --verbose"
   },
@@ -22,7 +22,7 @@
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.14",
-    "@types/node": "^24.0.14",
+    "@types/node": "^24.7.1",
     "css-loader": "^6.8.1",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",

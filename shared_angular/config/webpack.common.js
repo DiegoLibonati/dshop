@@ -6,8 +6,15 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: "ts-loader",
         exclude: /node_modules/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              configFile: path.resolve(__dirname, "../tsconfig.app.json"),
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -17,17 +24,24 @@ module.exports = {
             type: "asset/source",
           },
           {
-            use: ["style-loader", "css-loader"],
+            use: [
+              { loader: "style-loader" },
+              { loader: "css-loader" },
+            ],
           },
         ],
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          { loader: "sass-loader" },
+        ],
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        use: [{ loader: "html-loader" }],
       },
     ],
   },
@@ -35,6 +49,7 @@ module.exports = {
     extensions: [".ts", ".js"],
     alias: {
       "@src": path.resolve(__dirname, "../src"),
+      "@tests": path.resolve(__dirname, "../tests"),
     },
   },
 };

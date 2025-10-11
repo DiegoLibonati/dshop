@@ -12,14 +12,16 @@ RUN npm run build
 # Final image
 FROM nginx:stable-alpine
 
+RUN addgroup -g 1001 -S appuser && adduser -S appuser -u 1001 -G appuser
+
 COPY shared_core/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /home/app/shared_core/dist /usr/share/nginx/html
 
 RUN touch /run/nginx.pid \
- && mkdir -p /var/cache/nginx \
- && chown -R nginx:nginx /run/nginx.pid /var/cache/nginx /usr/share/nginx/html /etc/nginx
+    && mkdir -p /var/cache/nginx \
+    && chown -R appuser:appuser /run/nginx.pid /var/cache/nginx /usr/share/nginx/html /etc/nginx
 
-USER nginx
+USER appuser
 
 EXPOSE 80
 

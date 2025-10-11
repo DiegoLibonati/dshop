@@ -1,14 +1,20 @@
-# DShop 
+# DShop
+
+## Educational Purpose
+
+This project was created primarily for **educational and learning purposes**.  
+While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
+The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
 ## Getting Started without Docker
 
 1. Clone the repository with `git clone "repository link"`
-2. Enter the share_core folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
-3. Enter the share_angular folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
-4. Enter the share_react folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
-5. Enter the product_detail folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
-6. Enter the home folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
-7. Enter the container folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run start`.
+2. Enter the share_core folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
+3. Enter the share_angular folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
+4. Enter the share_react folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
+5. Enter the product_detail folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
+6. Enter the home folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
+7. Enter the container folder (MFE) and run `npm install` if the dependencies aren't installed. Then run the command `npm run dev`.
 
 ## Getting Started with Docker
 
@@ -39,6 +45,7 @@ This project is a fun project that allowed me to learn `MicroFrontends (MFEs)` w
 5. Webpack 5
 6. Vue 3
 7. Angular 14
+8. Nginx
 
 ## Libraries used
 
@@ -246,7 +253,7 @@ This project is a fun project that allowed me to learn `MicroFrontends (MFEs)` w
 "@testing-library/jest-dom": "^6.6.4"
 "@testing-library/user-event": "^14.6.1"
 "@types/jest": "^29.5.14"
-"@types/node": "^24.0.14"
+"@types/node": "^24.7.1"
 "css-loader": "^6.8.1"
 "html-loader": "^5.1.0"
 "html-webpack-plugin": "^5.6.3"
@@ -288,7 +295,7 @@ This project is a fun project that allowed me to learn `MicroFrontends (MFEs)` w
 "@testing-library/react": "^16.3.0"
 "@testing-library/user-event": "^14.6.1"
 "@types/jest": "^29.5.14"
-"@types/node": "^24.0.13"
+"@types/node": "^24.7.1"
 "@types/react": "^19.1.8"
 "@types/react-dom": "^19.1.6"
 "babel-loader": "^10.0.0"
@@ -351,14 +358,13 @@ https://github.com/user-attachments/assets/2758b45c-2699-4e52-b604-2be29c70346b
 1. Join to `shared_core` folder
 2. Execute: `npm run test`
 
-
 ## Documentation APP
 
 ### **Version**
 
 ```ts
 APP VERSION: 1.0.0
-README UPDATED: 06/09/2025
+README UPDATED: 10/10/2025
 AUTHOR: Diego Libonati
 ```
 
@@ -395,3 +401,7 @@ WATCHPACK_POLLING=true
 ### Shared Angular MFE
 
 1. Error when running tests
+
+### Shared Vue MFE
+
+1. Modularization of tsconfig files does not work
