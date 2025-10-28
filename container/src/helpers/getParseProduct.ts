@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ProductAPI } from "@src/entities/services";
+import { ProductAPI } from "@src/entities/app";
 
 import { getRandomBetweenWithDecimals } from "@src/helpers/getRandomBetweenWithDecimals";
 

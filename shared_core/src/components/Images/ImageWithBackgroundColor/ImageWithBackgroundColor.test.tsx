@@ -46,9 +46,9 @@ describe("ImageWithBackgroundColor.tsx", () => {
     test("It should render the component.", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".image-with-background-color-wrapper"
-      ) as HTMLDivElement;
+      );
 
       expect(root).toBeInTheDocument();
     });
@@ -65,25 +65,25 @@ describe("ImageWithBackgroundColor.tsx", () => {
     test("It must apply the background color.", () => {
       const { container, props } = renderComponent(isActive);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".image-with-background-color-wrapper"
-      ) as HTMLDivElement;
+      );
 
-      expect(root.style.backgroundColor).toEqual(props.bgColor);
+      expect(root!.style.backgroundColor).toEqual(props.bgColor);
     });
 
     test("It must execute the relevant function when you click on the image.", async () => {
       const { container, props } = renderComponent(isActive);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".image-with-background-color-wrapper"
-      ) as HTMLDivElement;
+      );
 
-      await user.click(root);
+      await user.click(root!);
 
       expect(props.onClick).toHaveBeenCalledTimes(1);
       expect(
-        root.classList.contains("image-with-background-color-wrapper--pointer")
+        root!.classList.contains("image-with-background-color-wrapper--pointer")
       ).toBeTruthy();
     });
   });
@@ -94,12 +94,12 @@ describe("ImageWithBackgroundColor.tsx", () => {
     test("It should not render root with the active property.", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".image-with-background-color-wrapper"
-      ) as HTMLDivElement;
+      );
 
       expect(
-        root.classList.contains("image-with-background-color-wrapper--active")
+        root!.classList.contains("image-with-background-color-wrapper--active")
       ).toBeFalsy();
     });
   });
@@ -110,12 +110,12 @@ describe("ImageWithBackgroundColor.tsx", () => {
     test("It should render root with the active property.", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".image-with-background-color-wrapper"
-      ) as HTMLDivElement;
+      );
 
       expect(
-        root.classList.contains("image-with-background-color-wrapper--active")
+        root!.classList.contains("image-with-background-color-wrapper--active")
       ).toBeTruthy();
     });
   });

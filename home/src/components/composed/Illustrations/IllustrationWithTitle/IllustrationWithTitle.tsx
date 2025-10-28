@@ -2,10 +2,7 @@ import React from "react";
 
 import { IllustrationWithTitleProps } from "@src/entities/props";
 
-import Casual from "@src/assets/Casual.png";
-import Formal from "@src/assets/Formal.png";
-import Gym from "@src/assets/Gym.png";
-import Party from "@src/assets/Party.png";
+import assets from "@src/assets/export";
 
 import "@src/components/composed/Illustrations/IllustrationWithTitle/IllustrationWithTitle.css";
 
@@ -24,7 +21,7 @@ export const IllustrationWithTitle = ({
 
       {type === "casual" && (
         <img
-          src={Casual}
+          src={assets.images.CasualPng}
           alt={`${type} img`}
           className="illustration-with-title__illustration illustration-with-title__illustration-casual"
         ></img>
@@ -32,7 +29,7 @@ export const IllustrationWithTitle = ({
 
       {type === "formal" && (
         <img
-          src={Formal}
+          src={assets.images.FormalPng}
           alt={`${type} img`}
           className="illustration-with-title__illustration illustration-with-title__illustration-formal"
         ></img>
@@ -40,7 +37,7 @@ export const IllustrationWithTitle = ({
 
       {type === "gym" && (
         <img
-          src={Gym}
+          src={assets.images.GymPng}
           alt={`${type} img`}
           className="illustration-with-title__illustration illustration-with-title__illustration-gym"
         ></img>
@@ -48,7 +45,7 @@ export const IllustrationWithTitle = ({
 
       {type === "party" && (
         <img
-          src={Party}
+          src={assets.images.PartyPng}
           alt={`${type} img`}
           className="illustration-with-title__illustration illustration-with-title__illustration-party"
         ></img>

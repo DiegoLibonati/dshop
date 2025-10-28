@@ -37,7 +37,7 @@ describe("SvgStarToFill.tsx", () => {
     test("It should render the svg.", () => {
       const { props, container } = renderComponent();
 
-      const svg = container.querySelector(`.${props.className}`) as SVGElement;
+      const svg = container.querySelector<HTMLElement>(`.${props.className}`);
 
       expect(svg).toBeInTheDocument();
     });
@@ -45,7 +45,7 @@ describe("SvgStarToFill.tsx", () => {
     test("It should render linearGradient with correct stop colors and offsets", () => {
       const { container, props } = renderComponent();
 
-      const stops = container.querySelectorAll("stop") as NodeList;
+      const stops = container.querySelectorAll<HTMLElement>("stop");
 
       expect(stops.length).toBe(2);
       expect(stops[0]).toHaveAttribute("offset", `${props.fill}%`);
@@ -58,13 +58,13 @@ describe("SvgStarToFill.tsx", () => {
     test("It should use a dynamic gradientId for fill and match in path and svg", () => {
       const { container } = renderComponent();
 
-      const svg = container.querySelector("svg") as SVGElement;
-      const path = container.querySelector("path") as SVGPathElement;
-      const defs = container.querySelector(
+      const svg = container.querySelector<HTMLElement>("svg");
+      const path = container.querySelector<HTMLElement>("path");
+      const defs = container.querySelector<HTMLElement>(
         "defs > linearGradient"
-      ) as SVGLinearGradientElement;
+      );
 
-      const gradientId = defs.getAttribute("id");
+      const gradientId = defs!.getAttribute("id");
 
       expect(svg).toHaveAttribute("fill", `url(#${gradientId})`);
       expect(path).toHaveAttribute("fill", `url(#${gradientId})`);
@@ -82,7 +82,7 @@ describe("SvgStarToFill.tsx", () => {
           />
         );
 
-        const stops = container.querySelectorAll("stop");
+        const stops = container.querySelectorAll<HTMLElement>("stop");
         expect(stops[0]).toHaveAttribute("offset", `${fill}%`);
         expect(stops[1]).toHaveAttribute("offset", `${fill}%`);
       }

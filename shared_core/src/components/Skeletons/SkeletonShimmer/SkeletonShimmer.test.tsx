@@ -35,9 +35,7 @@ describe("SkeletonShimmer.tsx", () => {
     test("It should represent the root of the skeleton.", () => {
       const { container } = renderComponent(rounded);
 
-      const root = container.querySelector(
-        ".skeleton-shimmer"
-      ) as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".skeleton-shimmer");
 
       expect(root).toBeInTheDocument();
     });
@@ -49,11 +47,11 @@ describe("SkeletonShimmer.tsx", () => {
     test("It must render the skeleton with the rounded class.", () => {
       const { container } = renderComponent(rounded);
 
-      const root = container.querySelector(
-        ".skeleton-shimmer"
-      ) as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".skeleton-shimmer");
 
-      expect(root.classList.contains("skeleton-shimmer--rounded")).toBeTruthy();
+      expect(
+        root!.classList.contains("skeleton-shimmer--rounded")
+      ).toBeTruthy();
     });
   });
 
@@ -63,11 +61,9 @@ describe("SkeletonShimmer.tsx", () => {
     test("It must render the skeleton without the rounded class.", () => {
       const { container } = renderComponent(rounded);
 
-      const root = container.querySelector(
-        ".skeleton-shimmer"
-      ) as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".skeleton-shimmer");
 
-      expect(root.classList.contains("skeleton-shimmer--rounded")).toBeFalsy();
+      expect(root!.classList.contains("skeleton-shimmer--rounded")).toBeFalsy();
     });
   });
 });

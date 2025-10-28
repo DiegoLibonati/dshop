@@ -1,4 +1,4 @@
-import { FooterSectionId } from "@src/entities/entities";
+import { FooterSectionId } from "@src/entities/app";
 
 export const FOOTER_LINKS: Record<FooterSectionId, Record<string, string>> = {
   company: {

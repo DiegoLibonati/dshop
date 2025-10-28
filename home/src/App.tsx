@@ -2,18 +2,18 @@ import React, { useEffect } from "react";
 
 import { AppProps } from "@src/entities/props";
 
-import { PresentationSection } from "@src/containers/PresentationSection/PresentationSection";
-import { BrandsSection } from "@src/containers/BrandsSection/BrandsSection";
-import { NewArrivalsSection } from "@src/containers/NewArrivalsSection/NewArrivalsSection";
-import { TopSellingSection } from "@src/containers/TopSellingSection/TopSellingSection";
-import { BrowseByDressStyleSection } from "@src/containers/BrowseByDressStyleSection/BrowseByDressStyleSection";
-import { OurHappyCustomersSection } from "@src/containers/OurHappyCustomersSection/OurHappyCustomersSection";
+import { PresentationSection } from "@src/components/composed/Sections/PresentationSection/PresentationSection";
+import { BrandsSection } from "@src/components/composed/Sections/BrandsSection/BrandsSection";
+import { NewArrivalsSection } from "@src/components/composed/Sections/NewArrivalsSection/NewArrivalsSection";
+import { TopSellingSection } from "@src/components/composed/Sections/TopSellingSection/TopSellingSection";
+import { BrowseByDressStyleSection } from "@src/components/composed/Sections/BrowseByDressStyleSection/BrowseByDressStyleSection";
+import { OurHappyCustomersSection } from "@src/components/composed/Sections/OurHappyCustomersSection/OurHappyCustomersSection";
 
-import { useConfigContext } from "@src/contexts/Config/ConfigContext";
-import { useBrandsContext } from "@src/contexts/Brands/BrandsContext";
-import { useNewArrivalsContext } from "@src/contexts/NewArrivals/NewArrivalsContext";
-import { useTopSellingsContext } from "@src/contexts/TopSellings/TopSellingsContext";
-import { useHappyCustomersContext } from "@src/contexts/HappyCustomers/HappyCustomersContext";
+import { useConfigContext } from "@src/hooks/useConfigContext";
+import { useBrandsContext } from "@src/hooks/useBrandsContext";
+import { useNewArrivalsContext } from "@src/hooks/useNewArrivalsContext";
+import { useTopSellingsContext } from "@src/hooks/useTopSellingsContext";
+import { useHappyCustomersContext } from "@src/hooks/useHappyCustomersContext";
 
 import "@src/App.css";
 

@@ -55,20 +55,20 @@ describe("ItemClothes.tsx", () => {
     test("It must render the ItemClothes component with onClick fn.", () => {
       const { container } = renderComponent(onClick, discount);
 
-      const root = container.querySelector(".item-clothes") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".item-clothes");
 
       expect(root).toBeInTheDocument();
-      expect(root.classList.contains("item-clothes--pointer")).toEqual(true);
+      expect(root!.classList.contains("item-clothes--pointer")).toEqual(true);
     });
 
     test("It must execute the onClick function when the ItemClothes is clicked.", async () => {
       const { container } = renderComponent(onClick, discount);
 
-      const root = container.querySelector(".item-clothes") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".item-clothes");
 
       expect(root).toBeInTheDocument();
 
-      await user.click(root);
+      await user.click(root!);
 
       expect(onClick).toHaveBeenCalledTimes(1);
     });
@@ -81,10 +81,10 @@ describe("ItemClothes.tsx", () => {
     test("It must render the ItemClothes component without onClick fn.", () => {
       const { container } = renderComponent(onClick, discount);
 
-      const root = container.querySelector(".item-clothes") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".item-clothes");
 
       expect(root).toBeInTheDocument();
-      expect(root.classList.contains("item-clothes--pointer")).toEqual(false);
+      expect(root!.classList.contains("item-clothes--pointer")).toEqual(false);
     });
   });
 });

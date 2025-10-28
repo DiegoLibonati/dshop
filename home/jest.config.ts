@@ -8,29 +8,29 @@ const config: Config = {
     "^.+\\.(ts|tsx)$": ["ts-jest", { tsconfig: "tsconfig.test.json" }],
   },
   moduleNameMapper: {
-    "\\.(css|scss|sass|less)$": "<rootDir>/tests/mocks/css.js",
-    "^.+\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/tests/mocks/imgs.js",
+    "\\.(css|scss|sass|less)$": "<rootDir>/tests_mocks/styleMock.ts",
+    "^.+\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/tests_mocks/fileMock.ts",
 
     "^@src/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",
 
-    "^shared_core/SharedCore$": "<rootDir>/tests/mocks/SharedCore.js",
-    "^shared_core/SharedCoreEnums$": "<rootDir>/tests/mocks/SharedCoreEnums.js",
+    "^shared_core/SharedCore$": "<rootDir>/tests_mocks/SharedCore.ts",
+    "^shared_core/SharedCoreEnums$": "<rootDir>/tests_mocks/SharedCoreEnums.ts",
     "^shared_core/SharedCoreEntities$":
-      "<rootDir>/tests/mocks/SharedCoreEntities.js",
-    "^shared_core/SharedCoreProps$": "<rootDir>/tests/mocks/SharedCoreProps.js",
+      "<rootDir>/tests_mocks/SharedCoreEntities.ts",
+    "^shared_core/SharedCoreProps$": "<rootDir>/tests_mocks/SharedCoreProps.ts",
 
-    "^shared_react/SharedReact$": "<rootDir>/tests/mocks/SharedReact.js",
+    "^shared_react/SharedReact$": "<rootDir>/tests_mocks/SharedReact.ts",
     "^shared_react/SharedReactEnums$":
-      "<rootDir>/tests/mocks/SharedReactEnums.js",
+      "<rootDir>/tests_mocks/SharedReactEnums.ts",
     "^shared_react/SharedReactProps$":
-      "<rootDir>/tests/mocks/SharedReactProps.js",
+      "<rootDir>/tests_mocks/SharedReactProps.ts",
 
-    "^shared_angular/SharedAngular$": "<rootDir>/tests/mocks/SharedAngular.js",
+    "^shared_angular/SharedAngular$": "<rootDir>/tests_mocks/SharedAngular.ts",
     "^shared_angular/SharedAngularEnums$":
-      "<rootDir>/tests/mocks/SharedAngularEnums.js",
+      "<rootDir>/tests_mocks/SharedAngularEnums.ts",
     "^shared_angular/SharedAngularProps$":
-      "<rootDir>/tests/mocks/SharedAngularProps.js",
+      "<rootDir>/tests_mocks/SharedAngularProps.ts",
   },
   transformIgnorePatterns: [],
 };

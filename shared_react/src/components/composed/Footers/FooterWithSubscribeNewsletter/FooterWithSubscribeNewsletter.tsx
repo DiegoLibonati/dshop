@@ -12,7 +12,7 @@ import { lang } from "@src/constants/lang";
 
 import { getIdsByLength } from "shared_core/SharedCore";
 
-import Payments from "@src/assets/payments.png";
+import assets from "@src/assets/export";
 
 import "@src/components/composed/Footers/FooterWithSubscribeNewsletter/FooterWithSubscribeNewsletter.css";
 
@@ -139,7 +139,7 @@ export const FooterWithSubscribeNewsletter = ({
         </p>
 
         <img
-          src={Payments}
+          src={assets.images.PaymentsPng}
           alt={"payments"}
           className="footer-with-subscribe-newsletter__end-payments"
         ></img>

@@ -27,7 +27,7 @@ describe("SvgArrowRight.tsx", () => {
     test("It should render the svg.", () => {
       const { props, container } = renderComponent();
 
-      const svg = container.querySelector(`.${props.className}`) as SVGElement;
+      const svg = container.querySelector<HTMLElement>(`.${props.className}`);
 
       expect(svg).toBeInTheDocument();
     });

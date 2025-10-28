@@ -1,4 +1,4 @@
-import { FooterSection, FooterSectionId } from "@src/entities/entities";
+import { FooterSection, FooterSectionId } from "@src/entities/app";
 
 import { lang } from "@src/constants/lang";
 import { FOOTER_LINKS } from "@src/constants/components";

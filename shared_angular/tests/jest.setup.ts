@@ -1,6 +1,6 @@
-import "@testing-library/jest-dom";
 import "zone.js";
 import "zone.js/testing";
+import "@testing-library/jest-dom";
 
 import { getTestBed } from "@angular/core/testing";
 import {
@@ -12,11 +12,3 @@ getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
-
-if (!HTMLFormElement.prototype.requestSubmit) {
-  HTMLFormElement.prototype.requestSubmit = function () {
-    this.dispatchEvent(
-      new SubmitEvent("submit", { bubbles: true, cancelable: true })
-    );
-  };
-}

@@ -31,7 +31,7 @@ describe("LoaderCircular.tsx", () => {
     test("It should render root loader.", () => {
       const { container } = renderComponent(rounded);
 
-      const root = container.querySelector(".loader") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".loader");
 
       expect(root).toBeInTheDocument();
     });

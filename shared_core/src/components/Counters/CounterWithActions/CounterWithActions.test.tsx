@@ -38,9 +38,9 @@ describe("TagSimple.tsx", () => {
     test("It should render the counter with actions.", () => {
       const { container } = renderComponent(limit);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".counter-with-actions"
-      ) as HTMLDivElement;
+      );
 
       expect(root).toBeInTheDocument();
     });

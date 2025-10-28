@@ -13,7 +13,6 @@
     "paths": {
       "@src/*": ["src/*"],
       "@tests/*": ["tests/*"]
-    },
-    "types": ["node"]
+    }
   }
 }

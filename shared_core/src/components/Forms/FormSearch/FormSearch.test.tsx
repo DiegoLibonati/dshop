@@ -38,7 +38,7 @@ describe("MenuScreenWhite.tsx", () => {
     test("It must render the form.", () => {
       const { container } = renderComponent();
 
-      const form = container.querySelector(".form-search") as HTMLFormElement;
+      const form = container.querySelector<HTMLFormElement>(".form-search");
 
       expect(form).toBeInTheDocument();
     });

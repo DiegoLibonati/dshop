@@ -43,15 +43,16 @@ describe("RateStars.tsx", () => {
     test("It must render all stars based on the maximum number of stars in the container.", () => {
       const { container, props } = renderComponent();
 
-      const root = container.querySelector(".rate-stars") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".rate-stars");
 
-      expect(root.children.length).toEqual(props.max);
+      expect(root!.children.length).toEqual(props.max);
     });
 
     test("It must render all stars based on the maximum.", () => {
       const { container, props } = renderComponent();
 
-      const stars = container.querySelectorAll(".rate-stars__star") as NodeList;
+      const stars =
+        container.querySelectorAll<HTMLElement>(".rate-stars__star");
 
       expect(stars).toHaveLength(props.max);
     });
@@ -59,9 +60,9 @@ describe("RateStars.tsx", () => {
     test("It must render all stars with the props class.", () => {
       const { container, props } = renderComponent();
 
-      const stars = container.querySelectorAll(
+      const stars = container.querySelectorAll<HTMLElement>(
         `.${props.classNameStar}`
-      ) as NodeList;
+      );
 
       expect(stars).toHaveLength(props.max);
     });

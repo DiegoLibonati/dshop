@@ -7,8 +7,8 @@ import { useRouter } from "@src/hooks/useRouter";
 import { getParseClothes } from "@src/helpers/getParseClothes";
 import { getParseProduct } from "@src/helpers/getParseProduct";
 
-import { getProducts } from "@src/services/get/getProducts";
-import { getProductById } from "@src/services/get/getProductById";
+import { getProducts } from "@src/api/get/getProducts";
+import { getProductById } from "@src/api/get/getProductById";
 
 import { mount, MountOptions, unMount } from "product_detail/ProductDetailApp";
 import { Clothes, Product } from "shared_core/SharedCoreEntities";

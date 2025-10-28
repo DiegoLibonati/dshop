@@ -9,7 +9,7 @@ import { getRandomBetweenWithDecimals } from "@src/helpers/getRandomBetweenWithD
 
 import { reviews } from "@src/constants/reviews";
 
-import { getProducts } from "@src/services/get/getProducts";
+import { getProducts } from "@src/api/get/getProducts";
 
 import { mount, MountOptions, unMount } from "home/HomeApp";
 import { Clothes } from "shared_core/SharedCoreEntities";

@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 
-import LayoutPage from "@src/layouts/LayaoutPage/LayoutPage";
+import LayoutPrincipal from "@src/layouts/LayoutPrincipal/LayoutPrincipal";
 
 import "@src/pages/ProductDetailPage/ProductDetailPage.css";
 
@@ -10,9 +10,9 @@ const ProductDetailLazy = lazy(
 
 const ProductDetailPage = () => {
   return (
-    <LayoutPage>
+    <LayoutPrincipal>
       <ProductDetailLazy classNameWrapper="product-detail-wrapper"></ProductDetailLazy>
-    </LayoutPage>
+    </LayoutPrincipal>
   );
 };
 

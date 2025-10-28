@@ -191,7 +191,7 @@ export const App = () => {
       <div className="component">
         <h2 className="component__title">SvgStarToFill</h2>
         <SvgStarToFill
-          fill={75}
+          fill={"75"}
           inColor="#09feee"
           outColor="#ffffff"
         ></SvgStarToFill>

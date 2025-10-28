@@ -1,10 +1,10 @@
 import { createApp, type App as VueApp } from "vue";
 
-import { MountOptions, UnMountOptions } from "@src/entities/entities";
+import { MountOptions, UnMountOptions } from "@src/entities/app";
 
 import App from "@src/App.vue";
 
-import { IS_DEV } from "@src/constants/envs";
+import envs from "@src/constants/envs";
 import { PRODUCT_1 } from "@src/constants/products";
 import { CLOTHES_1 } from "@src/constants/clothes";
 
@@ -19,7 +19,7 @@ const mount = (el: HTMLElement, options?: MountOptions) => {
 
   app.mount(el);
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[mountComponent - ${titleMfe}] mounting ${titleMfe}`);
   }
 };
@@ -36,13 +36,13 @@ const unMount = (options?: UnMountOptions) => {
   app.unmount();
   app = null;
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[unMountComponent - ${titleMfe}] Unmounting ${titleMfe}`);
   }
 };
 
 // Dev
-if (IS_DEV === "development") {
+if (envs.IS_DEV === "development") {
   const devRoot = document.getElementById(
     "_product-detail-dev-root"
   ) as HTMLDivElement;

@@ -64,7 +64,7 @@ describe("header.component.ts", () => {
     test("It must render the component.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const header = container.querySelector(".header") as HTMLElement;
+      const header = container.querySelector<HTMLElement>(".header");
 
       expect(header).toBeInTheDocument();
     });
@@ -76,9 +76,8 @@ describe("header.component.ts", () => {
     test("It must render the logo section of the header.", async () => {
       const { container, props } = await renderComponent(isFixed);
 
-      const headerLogo = container.querySelector(
-        ".header__logo"
-      ) as HTMLDivElement;
+      const headerLogo =
+        container.querySelector<HTMLDivElement>(".header__logo");
       const btnHeaderOpen = screen.getByRole("button", {
         name: "header open",
       }) as HTMLButtonElement;
@@ -126,9 +125,8 @@ describe("header.component.ts", () => {
     test("It must render the options section of the header.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const headerOptions = container.querySelector(
-        ".header__options"
-      ) as HTMLElement;
+      const headerOptions =
+        container.querySelector<HTMLElement>(".header__options");
 
       expect(headerOptions).toBeInTheDocument();
     });
@@ -140,9 +138,8 @@ describe("header.component.ts", () => {
     test("It must render the form section of the header.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const headerForm = container.querySelector(
-        "app-form-search"
-      ) as HTMLElement;
+      const headerForm =
+        container.querySelector<HTMLElement>("app-form-search");
 
       expect(headerForm).toBeInTheDocument();
     });
@@ -154,9 +151,8 @@ describe("header.component.ts", () => {
     test("It must render the actions section of the header.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const headerActions = container.querySelector(
-        ".header__actions"
-      ) as HTMLFormElement;
+      const headerActions =
+        container.querySelector<HTMLFormElement>(".header__actions");
       const btnHeaderSearch = screen.getByLabelText(
         /header search/i
       ) as HTMLButtonElement;
@@ -200,9 +196,9 @@ describe("header.component.ts", () => {
     test("It should not be fixed.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const header = container.querySelector(".header") as HTMLElement;
+      const header = container.querySelector<HTMLElement>(".header");
 
-      expect(header.classList.contains("header--fixed")).toBeFalsy();
+      expect(header!.classList.contains("header--fixed")).toBeFalsy();
     });
   });
 
@@ -212,9 +208,9 @@ describe("header.component.ts", () => {
     test("It should be fixed.", async () => {
       const { container } = await renderComponent(isFixed);
 
-      const header = container.querySelector(".header") as HTMLElement;
+      const header = container.querySelector<HTMLElement>(".header");
 
-      expect(header.classList.contains("header--fixed")).toBeTruthy();
+      expect(header!.classList.contains("header--fixed")).toBeTruthy();
     });
   });
 });

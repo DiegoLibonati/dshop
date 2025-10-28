@@ -5,7 +5,6 @@ import { ReviewCustomerProps } from "@src/app/entities/props";
 import { ReviewCustomerComponent } from "@src/app/components/composed/reviews/review-customer/review-customer.component";
 import { RateStarsComponent } from "@src/app/components/core/ratings/rate-stars/rate-stars.component";
 
-
 type RenderComponent = {
   props: ReviewCustomerProps;
   container: Element;
@@ -36,9 +35,8 @@ describe("review-customer.component.ts", () => {
     test("It must render the customer review.", async () => {
       const { container } = await renderComponent();
 
-      const review = container.querySelector(
-        ".review-customer"
-      ) as HTMLDivElement;
+      const review =
+        container.querySelector<HTMLDivElement>(".review-customer");
 
       expect(review).toBeInTheDocument();
     });
@@ -46,15 +44,13 @@ describe("review-customer.component.ts", () => {
     test("It must render the stars with their maximum and current values.", async () => {
       const { container, props } = await renderComponent();
 
-      const rateStars = container.querySelector(
-        "app-rate-stars"
-      ) as HTMLElement;
+      const rateStars = container.querySelector<HTMLElement>("app-rate-stars");
 
       expect(rateStars).toBeInTheDocument();
-      expect(rateStars.getAttribute("ng-reflect-max")).toBe(
+      expect(rateStars!.getAttribute("ng-reflect-max")).toBe(
         props.maxStars.toString()
       );
-      expect(rateStars.getAttribute("ng-reflect-value")).toBe(
+      expect(rateStars!.getAttribute("ng-reflect-value")).toBe(
         props.valueStars.toString()
       );
     });

@@ -35,9 +35,9 @@ describe("CarrouselWithTitleAndArrows.tsx", () => {
     test("It must render the component.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".carousel-with-title-and-arrows"
-      ) as HTMLDivElement;
+      );
 
       expect(root).toBeInTheDocument();
     });
@@ -45,12 +45,12 @@ describe("CarrouselWithTitleAndArrows.tsx", () => {
     test("It must render the header, title, and actions.", () => {
       const { container } = renderComponent();
 
-      const header = container.querySelector(
+      const header = container.querySelector<HTMLDivElement>(
         ".carousel-with-title-and-arrows__header"
-      ) as HTMLDivElement;
-      const title = header.querySelector(
+      );
+      const title = header!.querySelector<HTMLHeadingElement>(
         ".carousel-with-title-and-arrows__header-title"
-      ) as HTMLHeadingElement;
+      );
       const btnPrevItem = screen.getByRole("button", { name: "prev item" });
       const btnNextItem = screen.getByRole("button", { name: "next item" });
 
@@ -63,12 +63,12 @@ describe("CarrouselWithTitleAndArrows.tsx", () => {
     test("It must render the content container and the items.", () => {
       const { container } = renderComponent();
 
-      const content = container.querySelector(
+      const content = container.querySelector<HTMLDivElement>(
         ".carousel-with-title-and-arrows__content"
-      ) as HTMLDivElement;
-      const item = content.querySelector(
+      );
+      const item = content!.querySelector<HTMLDivElement>(
         `.${CLASSNAME_ITEM_CHILDREN}`
-      ) as HTMLDivElement;
+      );
 
       expect(content).toBeInTheDocument();
       expect(item).toBeInTheDocument();

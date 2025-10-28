@@ -249,11 +249,14 @@ This project is a fun project that allowed me to learn `MicroFrontends (MFEs)` w
 #### devDependencies
 
 ```
+"@babel/core": "^7.28.5"
+"@babel/preset-env": "^7.28.5"
 "@testing-library/angular": "^12.1.0"
 "@testing-library/jest-dom": "^6.6.4"
 "@testing-library/user-event": "^14.6.1"
 "@types/jest": "^29.5.14"
 "@types/node": "^24.7.1"
+"babel-jest": "^30.2.0"
 "css-loader": "^6.8.1"
 "html-loader": "^5.1.0"
 "html-webpack-plugin": "^5.6.3"
@@ -265,7 +268,6 @@ This project is a fun project that allowed me to learn `MicroFrontends (MFEs)` w
 "style-loader": "^3.3.4"
 "ts-jest": "^29.2.5"
 "ts-loader": "^9.5.2"
-"ts-node": "^10.9.2"
 "typescript": "^5.9.2"
 "webpack": "^5.99.9"
 "webpack-cli": "^5.1.4"
@@ -398,10 +400,7 @@ WATCHPACK_POLLING=true
 
 1. Typing error in Header.
 
-### Shared Angular MFE
-
-1. Error when running tests
-
 ### Shared Vue MFE
 
 1. Modularization of tsconfig files does not work
+2. After modularization of tsconfig files, add tests

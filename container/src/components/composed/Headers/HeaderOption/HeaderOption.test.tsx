@@ -76,9 +76,9 @@ describe("HeaderOption.tsx", () => {
     test("It should not render the button to open.", () => {
       const { container } = renderComponent(isMenu, open);
 
-      const icon = container.querySelector(
+      const icon = container.querySelector<HTMLDivElement>(
         ".header__option-icon-wrapper"
-      ) as HTMLDivElement;
+      );
 
       expect(icon).not.toBeInTheDocument();
     });

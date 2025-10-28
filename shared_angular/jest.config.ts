@@ -1,29 +1,37 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  preset: "ts-jest",
+  preset: "ts-jest/presets/default-esm",
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/tests/jest.setup.ts"],
   transform: {
-    "^.+\\.mjs$": "ts-jest",
-    "^.+\\.html$": "<rootDir>/tests/mocks/rawTransform.js",
-    "^.+\\.css$": "<rootDir>/tests/mocks/rawTransform.js",
-    "^.+\\.(ts|tsx)$": ["ts-jest", { tsconfig: "tsconfig.test.json" }],
+    "^.+\\.(mjs|js)$": "babel-jest",
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.test.json",
+        useESM: true,
+      },
+    ],
+    "^.+\\.html$": "<rootDir>/tests_mocks/rawTransform.ts",
+    "^.+\\.css$": "<rootDir>/tests_mocks/rawTransform.ts",
   },
   extensionsToTreatAsEsm: [".ts", ".tsx"],
+  transformIgnorePatterns: [
+    "node_modules/(?!(@angular|rxjs|tslib|@testing-library/angular)/)",
+  ],
   moduleNameMapper: {
-    "\\.(scss|sass|less)$": "<rootDir>/tests/mocks/css.js",
-
+    "\\.(scss|sass|less)$": "<rootDir>/tests_mocks/styleMock.ts",
     "^@src/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",
-
-    "^shared_core/SharedCore$": "<rootDir>/tests/mocks/SharedCore.js",
+    "^shared_core/SharedCore$": "<rootDir>/tests_mocks/SharedCore.ts",
     "^shared_core/SharedCoreEntities$":
-      "<rootDir>/tests/mocks/SharedCoreEntities.js",
-    "^shared_core/SharedCoreEnums$": "<rootDir>/tests/mocks/SharedCoreEnums.js",
-    "^shared_core/SharedCoreProps$": "<rootDir>/tests/mocks/SharedCoreProps.js",
+      "<rootDir>/tests_mocks/SharedCoreEntities.ts",
+    "^shared_core/SharedCoreEnums$": "<rootDir>/tests_mocks/SharedCoreEnums.ts",
+    "^shared_core/SharedCoreProps$": "<rootDir>/tests_mocks/SharedCoreProps.ts",
   },
-  transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$|tslib|@angular|rxjs)"],
+  moduleFileExtensions: ["ts", "tsx", "js", "mjs", "json", "node"],
+  watchPathIgnorePatterns: ["<rootDir>/dist", "<rootDir>/node_modules"],
 };
 
 export default config;

@@ -53,16 +53,15 @@ describe("InformationItemClothes.tsx", () => {
     test("It must render the InformationItemClothes component.", () => {
       const { container, props } = renderComponent(discount, description);
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".information-item-clothes"
-      ) as HTMLDivElement;
+      );
       const name = screen.getByRole("heading", {
         name: props.name,
       }) as HTMLHeadingElement;
-      const rateStars = container.querySelector(
-        ".rate-stars"
-      ) as HTMLDivElement;
-      const stars = container.querySelectorAll(".rate-stars__star") as NodeList;
+      const rateStars = container.querySelector<HTMLDivElement>(".rate-stars");
+      const stars =
+        container.querySelectorAll<HTMLElement>(".rate-stars__star");
       const rate = screen.getByText(`${props.rate}/${maxStars}`);
       const finalPrice = screen.getByRole("heading", {
         name: `$${props.price}`,
@@ -128,9 +127,9 @@ describe("InformationItemClothes.tsx", () => {
     test("It must render the InformationItemClothes component without description.", () => {
       const { container } = renderComponent(discount, description);
 
-      const descriptionElement = container.querySelector(
+      const descriptionElement = container.querySelector<HTMLParagraphElement>(
         ".information-item-clothes__description"
-      ) as HTMLParagraphElement;
+      );
 
       expect(descriptionElement).not.toBeInTheDocument();
     });

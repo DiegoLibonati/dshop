@@ -32,12 +32,11 @@ describe("MenuScreenWhite.tsx", () => {
     test("It must render the root of the menu.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(
-        ".menu-screen-white"
-      ) as HTMLDivElement;
+      const root =
+        container.querySelector<HTMLDivElement>(".menu-screen-white");
 
       expect(root).toBeInTheDocument();
-      expect(root.classList.contains("menu-screen-white")).toBeTruthy();
+      expect(root!.classList.contains("menu-screen-white")).toBeTruthy();
     });
 
     test("It must render the content passed by props in the menu.", () => {

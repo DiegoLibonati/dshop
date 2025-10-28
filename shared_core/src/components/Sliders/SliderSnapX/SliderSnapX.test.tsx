@@ -30,7 +30,7 @@ describe("SliderSnapX.tsx", () => {
     test("It must render the slider with the default class.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(".slider-snap-x") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".slider-snap-x");
 
       expect(root).toBeInTheDocument();
     });

@@ -40,7 +40,7 @@ describe("ColorCircle.tsx", () => {
     test("It should render the color circle", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(".color-circle") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".color-circle");
 
       expect(root).toBeInTheDocument();
     });
@@ -48,20 +48,20 @@ describe("ColorCircle.tsx", () => {
     test("It must render color.", () => {
       const { container, props } = renderComponent(isActive);
 
-      const root = container.querySelector(".color-circle") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".color-circle");
 
-      expect(root.style.backgroundColor).toEqual(props.color);
+      expect(root!.style.backgroundColor).toEqual(props.color);
     });
 
     test("It should execute the relevant function when the color is clicked.", async () => {
       const { container, props } = renderComponent(isActive);
 
-      const root = container.querySelector(".color-circle") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".color-circle");
 
-      await user.click(root);
+      await user.click(root!);
 
       expect(props.onClick).toHaveBeenCalledTimes(1);
-      expect(root.classList.contains("color-circle--pointer")).toBeTruthy();
+      expect(root!.classList.contains("color-circle--pointer")).toBeTruthy();
     });
   });
 
@@ -71,8 +71,8 @@ describe("ColorCircle.tsx", () => {
     test("It must not render check.", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(".color-circle") as HTMLDivElement;
-      const check = root.children?.[0];
+      const root = container.querySelector<HTMLDivElement>(".color-circle");
+      const check = root!.children?.[0];
 
       expect(check).toBeFalsy();
     });
@@ -84,8 +84,8 @@ describe("ColorCircle.tsx", () => {
     test("It must render check.", () => {
       const { container } = renderComponent(isActive);
 
-      const root = container.querySelector(".color-circle") as HTMLDivElement;
-      const check = root.children[0];
+      const root = container.querySelector<HTMLDivElement>(".color-circle");
+      const check = root!.children[0];
 
       expect(check).toBeInTheDocument();
     });

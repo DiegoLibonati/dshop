@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot, Root } from "react-dom/client";
 
-import { MountOptions, UnMountOptions } from "@src/entities/entities";
+import { MountOptions, UnMountOptions } from "@src/entities/app";
 import {
   AnchorCircularProps,
   ButtonBlackProps,
@@ -33,7 +33,7 @@ import {
   SvgTwitterProps,
   TagSimpleProps,
 } from "@src/entities/props";
-import { Component } from "@src/entities/enum.d";
+import { Component } from "@src/entities/enum";
 
 import { App } from "@src/App";
 import { SvgStarToFill } from "@src/components/Svgs/SvgStarToFill/SvgStarToFill";
@@ -68,7 +68,7 @@ import { LoaderCircular } from "@src/components/Loaders/LoaderCircular/LoaderCir
 import { getFinalPriceByDiscount } from "@src/helpers/getFinalPriceByDiscount";
 import { getIdsByLength } from "@src/helpers/getIdsByLength";
 
-import { IS_DEV } from "@src/constants/envs";
+import envs from "@src/constants/envs";
 
 const roots: Record<string, Root> = {};
 const titleMfe: string = "Shared Core";
@@ -147,7 +147,7 @@ const mountComponent = (el: HTMLDivElement, options: MountOptions) => {
   const props = options?.props;
   const idComponent = options.idComponent;
 
-  if (!IS_DEV && idComponent === Component.AppTest) {
+  if (!envs.IS_DEV && idComponent === Component.AppTest) {
     throw new Error(
       `[mountComponent - ${titleMfe}] You cannot render this component. Component: ${idComponent}`
     );
@@ -174,7 +174,7 @@ const mountComponent = (el: HTMLDivElement, options: MountOptions) => {
   root.render(reactNode);
   roots[idRootComponent] = root;
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[mountComponent - ${titleMfe}] mounting ${idRootComponent}`);
   }
 };
@@ -192,13 +192,13 @@ const unMountComponent = (idRoot: string, options?: UnMountOptions) => {
   requestAnimationFrame(() => rootExists.unmount());
   delete roots[idRoot];
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[unMountComponent - ${titleMfe}] Unmounting ${idRoot}`);
   }
 };
 
 // Dev
-if (IS_DEV === "development") {
+if (envs.IS_DEV === "development") {
   const devRoot = document.getElementById(
     "_shared-core-dev-root"
   ) as HTMLDivElement;

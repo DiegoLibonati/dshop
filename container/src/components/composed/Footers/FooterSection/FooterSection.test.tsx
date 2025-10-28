@@ -30,7 +30,7 @@ describe("FooterSection.tsx", () => {
     test("It must render the component.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(".footer-section") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".footer-section");
 
       expect(root).toBeInTheDocument();
     });

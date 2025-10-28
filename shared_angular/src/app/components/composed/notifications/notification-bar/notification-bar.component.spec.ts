@@ -33,9 +33,8 @@ describe("notification-bar.component.ts", () => {
     test("It must render the notification bar.", async () => {
       const { container } = await renderComponent();
 
-      const notificationBar = container.querySelector(
-        ".notification-bar"
-      ) as HTMLDivElement;
+      const notificationBar =
+        container.querySelector<HTMLDivElement>(".notification-bar");
 
       expect(notificationBar).toBeInTheDocument();
     });

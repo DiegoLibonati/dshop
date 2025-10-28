@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { defineProps, provide, watch } from "vue";
 
-import type { AppProps } from "@src/entities/props";
+import { AppProps } from "@src/entities/props";
 
-import ProductSection from '@src/containers/ProductSection/ProductSection.vue';
-import ReviewsSection from "@src/containers/ReviewsSection/ReviewsSection.vue";
-import YouMightAlsoLikeSection from "@src/containers/YouMightAlsoLikeSection/YouMightAlsoLikeSection.vue";
+import ProductSection from '@src/components/composed/Sections/ProductSection/ProductSection.vue';
+import ReviewsSection from "@src/components/composed/Sections/ReviewsSection/ReviewsSection.vue";
+import YouMightAlsoLikeSection from "@src/components/composed/Sections/YouMightAlsoLikeSection/YouMightAlsoLikeSection.vue";
 
 import { PRODUCT_CONTEXT_KEY, CLOTHES_ALSO_LIKE_CONTEXT_KEY } from "@src/constants/keys";
 
@@ -34,8 +34,8 @@ watch(() => props, (nv, ov) => {
 
 <template>
     <main class="main-product-detail">
-        <ProductSection></ProductSection>
-        <ReviewsSection></ReviewsSection>
-        <YouMightAlsoLikeSection></YouMightAlsoLikeSection>
+        <product-section></product-section>
+        <reviews-section></reviews-section>
+        <you-might-also-like-section></you-might-also-like-section>
     </main>
 </template>

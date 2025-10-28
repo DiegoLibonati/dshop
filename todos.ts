@@ -7,11 +7,11 @@
 
 // ### PRODUCT_DETAIL MFE ###
 // TODO: Modularization of tsconfig files does not work in MFE Vue
+// TODO: Testing
 
 // ### SHARED REACT MFE ###
 
 // ### SHARED ANGULAR MFE ###
-// TODO: Testing. It's not working (it stopped working out of nowhere).
 
 // ### SHARED CORE MFE ###
 

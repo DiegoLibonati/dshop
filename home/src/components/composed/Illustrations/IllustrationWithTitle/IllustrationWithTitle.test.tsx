@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { DressStyle } from "@src/entities/entities";
+import { DressStyle } from "@src/entities/app";
 import { IllustrationWithTitleProps } from "@src/entities/props";
 
 import { IllustrationWithTitle } from "@src/components/composed/Illustrations/IllustrationWithTitle/IllustrationWithTitle";

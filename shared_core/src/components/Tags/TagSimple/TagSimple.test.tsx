@@ -34,7 +34,7 @@ describe("TagSimple.tsx", () => {
     test("It should render the tag simple", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(".tag-simple") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".tag-simple");
 
       expect(root).toBeInTheDocument();
     });
@@ -52,12 +52,12 @@ describe("TagSimple.tsx", () => {
     test("It should execute the relevant function when the tag is clicked.", async () => {
       const { container, props } = renderComponent();
 
-      const root = container.querySelector(".tag-simple") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".tag-simple");
 
-      await user.click(root);
+      await user.click(root!);
 
       expect(props.onClick).toHaveBeenCalledTimes(1);
-      expect(root.classList.contains("tag-simple--pointer")).toBeTruthy();
+      expect(root!.classList.contains("tag-simple--pointer")).toBeTruthy();
     });
   });
 });

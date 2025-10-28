@@ -29,7 +29,7 @@ describe("LoaderScreen.tsx", () => {
     test("It must render the LoaderScreen component.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(".loader-screen") as HTMLDivElement;
+      const root = container.querySelector<HTMLDivElement>(".loader-screen");
 
       screen.debug();
 

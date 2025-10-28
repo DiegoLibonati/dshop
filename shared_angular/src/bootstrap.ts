@@ -21,7 +21,7 @@ import { AppTestComponent } from "@src/app/components/composed/app-test/app-test
 import { ReviewCustomerComponent } from "@src/app/components/composed/reviews/review-customer/review-customer.component";
 import { NotificationBarComponent } from "@src/app/components/composed/notifications/notification-bar/notification-bar.component";
 
-import { IS_DEV } from "@src/app/constants/envs.constants";
+import envs from "@src/app/constants/envs.constants";
 
 const componentsMap: Record<string, ComponentRef<unknown>> = {};
 const titleMfe: string = "Shared Angular";
@@ -46,7 +46,7 @@ const mountComponent = async (
   const props = options?.props;
   const id = options.idComponent;
 
-  if (!IS_DEV && id === Component.AppTest) {
+  if (!envs.IS_DEV && id === Component.AppTest) {
     throw new Error(
       `[mountComponent - ${titleMfe}] You cannot render this component. Component: ${id}`
     );
@@ -88,7 +88,7 @@ const mountComponent = async (
 
   componentsMap[idRoot] = compRef;
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[mountComponent - ${titleMfe}] mounting ${idRoot}`);
   }
 };
@@ -110,13 +110,13 @@ const unMountComponent = (idRoot: string, options?: UnMountOptions): void => {
   compRef.destroy();
   delete componentsMap[idRoot];
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[unMountComponent - ${titleMfe}] Unmounting: '${idRoot}'`);
   }
 };
 
 // Dev mode
-if (IS_DEV === "development") {
+if (envs.IS_DEV === "development") {
   const devRoot = document.getElementById(
     "_shared-angular-dev-root"
   ) as HTMLDivElement | null;

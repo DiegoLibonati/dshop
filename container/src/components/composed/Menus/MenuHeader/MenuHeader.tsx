@@ -4,14 +4,14 @@ import { MenuHeaderProps } from "@src/entities/props";
 
 import { MenuScreenWhite } from "@src/components/core/Menus/MenuScreenWhite/MenuScreenWhite";
 import { FormSearch } from "@src/components/core/Forms/FormSearch/FormSearch";
+import { ButtonBlack } from "@src/components/core/Buttons/ButtonBlack/ButtonBlack";
+import { SvgClose } from "@src/components/core/Svgs/SvgClose/SvgClose";
 
 import { lang } from "@src/constants/lang";
 
 import { getIdsByLength } from "shared_core/SharedCore";
 
 import "@src/components/composed/Menus/MenuHeader/MenuHeader.css";
-import { ButtonBlack } from "@src/components/core/Buttons/ButtonBlack/ButtonBlack";
-import { SvgClose } from "@src/components/core/Svgs/SvgClose/SvgClose";
 
 const MenuHeader = ({
   isMenuOpen,

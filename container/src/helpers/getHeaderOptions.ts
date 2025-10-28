@@ -1,4 +1,4 @@
-import { HeaderOption, HeaderOptionId } from "@src/entities/entities";
+import { HeaderOption, HeaderOptionId } from "@src/entities/app";
 
 import { lang } from "@src/constants/lang";
 

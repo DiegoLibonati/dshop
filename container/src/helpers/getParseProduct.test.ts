@@ -1,4 +1,4 @@
-import { ProductAPI } from "@src/entities/services";
+import { ProductAPI } from "@src/entities/app";
 
 import { getParseProduct } from "@src/helpers/getParseProduct";
 import { getRandomBetweenWithDecimals } from "@src/helpers/getRandomBetweenWithDecimals";

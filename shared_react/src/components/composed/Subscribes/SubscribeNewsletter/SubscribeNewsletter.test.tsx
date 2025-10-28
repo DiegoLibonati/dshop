@@ -40,9 +40,9 @@ describe("SubscribeNewsletter.tsx", () => {
     test("It must render the SubscribeNewsletter component.", () => {
       const { container } = renderComponent();
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".subscribe-newsletter"
-      ) as HTMLDivElement;
+      );
 
       expect(root).toBeInTheDocument();
     });
@@ -58,13 +58,13 @@ describe("SubscribeNewsletter.tsx", () => {
     test("It must render the form, with the input and the submit button.", () => {
       const { container } = renderComponent();
 
-      const form = container.querySelector(
+      const form = container.querySelector<HTMLFormElement>(
         ".subscribe-newsletter__form"
-      ) as HTMLFormElement;
+      );
       const input = screen.getByRole("textbox");
-      const btnSubmit = container.querySelector(
+      const btnSubmit = container.querySelector<HTMLDivElement>(
         ".subscribe-newsletter__form-submit-wrapper"
-      ) as HTMLDivElement;
+      );
 
       expect(form).toBeInTheDocument();
       expect(input).toBeInTheDocument();

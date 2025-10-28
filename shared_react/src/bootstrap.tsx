@@ -9,7 +9,7 @@ import {
   LoaderScreenProps,
   SubscribeNewsletterProps,
 } from "@src/entities/props";
-import { Component } from "@src/entities/enum.d";
+import { Component } from "@src/entities/enum";
 import { MountOptions, UnMountOptions } from "@src/entities/entities";
 
 import { App } from "@src/App";
@@ -19,7 +19,7 @@ import { SubscribeNewsletter } from "@src/components/composed/Subscribes/Subscri
 import { LoaderScreen } from "@src/components/composed/Loaders/LoaderScreen/LoaderScreen";
 import { GalleryClothes } from "@src/components/composed/Galleries/GalleryClothes/GalleryClothes";
 
-import { IS_DEV } from "@src/constants/envs";
+import envs from "@src/constants/envs";
 
 const roots: Record<string, Root> = {};
 const titleMfe: string = "Shared React";
@@ -57,7 +57,7 @@ const mountComponent = (el: HTMLDivElement, options: MountOptions) => {
   const props = options?.props;
   const idComponent = options.idComponent;
 
-  if (!IS_DEV && idComponent === Component.AppTest) {
+  if (!envs.IS_DEV && idComponent === Component.AppTest) {
     throw new Error(
       `[mountComponent - ${titleMfe}] You cannot render this component. Component: ${idComponent}`
     );
@@ -84,7 +84,7 @@ const mountComponent = (el: HTMLDivElement, options: MountOptions) => {
   root.render(reactNode);
   roots[idRootComponent] = root;
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[mountComponent - ${titleMfe}] mounting ${idRootComponent}`);
   }
 };
@@ -102,13 +102,13 @@ const unMountComponent = (idRoot: string, options?: UnMountOptions) => {
   requestAnimationFrame(() => rootExists.unmount());
   delete roots[idRoot];
 
-  if (IS_DEV === "development" && debug) {
+  if (envs.IS_DEV === "development" && debug) {
     console.log(`[unMountComponent - ${titleMfe}] Unmounting ${idRoot}`);
   }
 };
 
 // Dev
-if (IS_DEV === "development") {
+if (envs.IS_DEV === "development") {
   const devRoot = document.getElementById(
     "_shared-react-dev-root"
   ) as HTMLDivElement;

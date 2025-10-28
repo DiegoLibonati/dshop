@@ -70,12 +70,12 @@ describe("FooterWithSubscribeNewsletter.tsx", () => {
         language
       );
 
-      const root = container.querySelector(
+      const root = container.querySelector<HTMLDivElement>(
         ".footer-with-subscribe-newsletter"
-      ) as HTMLDivElement;
-      const subscribeNewsletter = container.querySelector(
+      );
+      const subscribeNewsletter = container.querySelector<HTMLDivElement>(
         ".footer-with-subscribe-newsletter__subscribe"
-      ) as HTMLDivElement;
+      );
       const title = screen.getByRole("heading", { name: props.title });
       const description = screen.getByText(props.description);
       const cr = screen.getByText(`${props.title} © All Rights Reserved`);
@@ -107,9 +107,9 @@ describe("FooterWithSubscribeNewsletter.tsx", () => {
         language
       );
 
-      const socialMedias = container.querySelectorAll(
+      const socialMedias = container.querySelectorAll<HTMLElement>(
         ".footer-with-subscribe-newsletter__content-social-wrapper"
-      ) as NodeList;
+      );
 
       expect(socialMedias).toHaveLength(totalMedias);
     });
@@ -130,9 +130,9 @@ describe("FooterWithSubscribeNewsletter.tsx", () => {
         language
       );
 
-      const socialMedias = container.querySelector(
+      const socialMedias = container.querySelector<HTMLDivElement>(
         "footer-with-subscribe-newsletter__content-socials"
-      ) as HTMLDivElement;
+      );
 
       expect(socialMedias).not.toBeInTheDocument();
     });

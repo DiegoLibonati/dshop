@@ -46,9 +46,8 @@ describe("GalleryClothes.tsx", () => {
     test("It must render the gallery title.", () => {
       const { container } = renderComponent();
 
-      const gallery = container.querySelector(
-        ".gallery-clothes"
-      ) as HTMLDivElement;
+      const gallery =
+        container.querySelector<HTMLDivElement>(".gallery-clothes");
 
       expect(gallery).toBeInTheDocument();
     });
@@ -57,18 +56,19 @@ describe("GalleryClothes.tsx", () => {
       const { container, props } = renderComponent();
 
       const title = screen.getByRole("heading", { name: props.title });
-      const clothes = container.querySelector(
+      const clothes = container.querySelector<HTMLDivElement>(
         ".gallery-clothes__clothes"
-      ) as HTMLDivElement;
+      );
 
       expect(title).toBeInTheDocument();
-      expect(clothes.children.length).toBeLessThanOrEqual(4);
+      expect(clothes!.children.length).toBeLessThanOrEqual(4);
     });
 
     test("It must execute the relevant function when clicking on a piece of clothing.", async () => {
       const { container, props } = renderComponent();
 
-      const clothes = container.querySelectorAll(".item-clothes") as NodeList;
+      const clothes =
+        container.querySelectorAll<HTMLDivElement>(".item-clothes");
       const item = clothes[0] as HTMLDivElement;
 
       await user.click(item);

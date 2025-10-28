@@ -8,18 +8,18 @@ const config: Config = {
     "^.+\\.(ts|tsx)$": ["ts-jest", { tsconfig: "tsconfig.test.json" }],
   },
   moduleNameMapper: {
-    "\\.(css|scss|sass|less)$": "<rootDir>/tests/mocks/css.js",
+    "\\.(css|scss|sass|less)$": "<rootDir>/tests_mocks/styleMock.ts",
 
-    "^.+\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/tests/mocks/imgs.js",
+    "^.+\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/tests_mocks/fileMock.ts",
 
     "^@src/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",
 
-    "^shared_core/SharedCore$": "<rootDir>/tests/mocks/SharedCore.js",
+    "^shared_core/SharedCore$": "<rootDir>/tests_mocks/SharedCore.ts",
     "^shared_core/SharedCoreEntities$":
-      "<rootDir>/tests/mocks/SharedCoreEntities.js",
-    "^shared_core/SharedCoreEnums$": "<rootDir>/tests/mocks/SharedCoreEnums.js",
-    "^shared_core/SharedCoreProps$": "<rootDir>/tests/mocks/SharedCoreProps.js",
+      "<rootDir>/tests_mocks/SharedCoreEntities.ts",
+    "^shared_core/SharedCoreEnums$": "<rootDir>/tests_mocks/SharedCoreEnums.ts",
+    "^shared_core/SharedCoreProps$": "<rootDir>/tests_mocks/SharedCoreProps.ts",
   },
   transformIgnorePatterns: [],
 };
