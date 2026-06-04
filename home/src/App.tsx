@@ -1,50 +1,33 @@
-import React, { useEffect } from "react";
+import type { JSX } from "react";
+import type { HomePageProps } from "@home/types/props";
 
-import { AppProps } from "@src/entities/props";
+import HomePage from "@home/pages/HomePage/HomePage";
 
-import { PresentationSection } from "@src/components/composed/Sections/PresentationSection/PresentationSection";
-import { BrandsSection } from "@src/components/composed/Sections/BrandsSection/BrandsSection";
-import { NewArrivalsSection } from "@src/components/composed/Sections/NewArrivalsSection/NewArrivalsSection";
-import { TopSellingSection } from "@src/components/composed/Sections/TopSellingSection/TopSellingSection";
-import { BrowseByDressStyleSection } from "@src/components/composed/Sections/BrowseByDressStyleSection/BrowseByDressStyleSection";
-import { OurHappyCustomersSection } from "@src/components/composed/Sections/OurHappyCustomersSection/OurHappyCustomersSection";
+import { BrandsProvider } from "@home/contexts/BrandsContext/BrandsProvider";
+import { DressStylesProvider } from "@home/contexts/DressStylesContext/DressStylesProvider";
+import { HappyCustomersProvider } from "@home/contexts/HappyCustomersContext/HappyCustomersProvider";
+import { NewArrivalsProvider } from "@home/contexts/NewArrivalsContext/NewArrivalsProvider";
+import { TopSellingsProvider } from "@home/contexts/TopSellingsContext/TopSellingsProvider";
 
-import { useConfigContext } from "@src/hooks/useConfigContext";
-import { useBrandsContext } from "@src/hooks/useBrandsContext";
-import { useNewArrivalsContext } from "@src/hooks/useNewArrivalsContext";
-import { useTopSellingsContext } from "@src/hooks/useTopSellingsContext";
-import { useHappyCustomersContext } from "@src/hooks/useHappyCustomersContext";
-
-import "@src/App.css";
-
-export const App = ({ callbacks, content }: AppProps) => {
-  const { handleSetInitialConfig } = useConfigContext();
-  const { handleSetBrands } = useBrandsContext();
-  const { handleSetNewArrivals } = useNewArrivalsContext();
-  const { handleSetTopSellings } = useTopSellingsContext();
-  const { handleSetReviews } = useHappyCustomersContext();
-
-  const onInit = () => {
-    handleSetInitialConfig({ callbacks: callbacks });
-    handleSetBrands(content.brands);
-    handleSetNewArrivals(content.newArrivals);
-    handleSetTopSellings(content.topSellings);
-    handleSetReviews(content.reviews);
-  };
-
-  useEffect(() => {
-    onInit();
-  }, []);
-
+const App = ({ brands, newArrivals, reviews, topSellings }: HomePageProps): JSX.Element => {
   return (
-    <main className="main-home">
-      <PresentationSection></PresentationSection>
-      <BrandsSection></BrandsSection>
-      <NewArrivalsSection></NewArrivalsSection>
-      <hr className="hr-home hr-home-gallery"></hr>
-      <TopSellingSection></TopSellingSection>
-      <BrowseByDressStyleSection></BrowseByDressStyleSection>
-      <OurHappyCustomersSection></OurHappyCustomersSection>
-    </main>
+    <BrandsProvider>
+      <NewArrivalsProvider>
+        <TopSellingsProvider>
+          <DressStylesProvider>
+            <HappyCustomersProvider>
+              <HomePage
+                brands={brands}
+                newArrivals={newArrivals}
+                reviews={reviews}
+                topSellings={topSellings}
+              ></HomePage>
+            </HappyCustomersProvider>
+          </DressStylesProvider>
+        </TopSellingsProvider>
+      </NewArrivalsProvider>
+    </BrandsProvider>
   );
 };
+
+export default App;

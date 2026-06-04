@@ -1,9 +1,8 @@
-import { FooterSection, FooterSectionId } from "@src/entities/app";
+import type { FooterSection, FooterSectionId } from "@container/types/app";
+import type { Locale } from "shared-core/sdk";
 
-import { lang } from "@src/constants/lang";
-import { FOOTER_LINKS } from "@src/constants/components";
-
-import { Locale } from "shared_core/SharedCoreEntities";
+import { FOOTER_LINKS } from "@container/constants/components";
+import { lang } from "@container/constants/lang";
 
 export const getFooterLinks = (lng: Locale): FooterSection[] => {
   const sections = lang[lng].footer.sections;
@@ -15,8 +14,8 @@ export const getFooterLinks = (lng: Locale): FooterSection[] => {
       id: sectionId,
       title: section.title,
       content: Object.keys(section.items).map((itemId) => ({
-        title: section.items[itemId],
-        link: FOOTER_LINKS[sectionId][itemId],
+        title: section.items[itemId]!,
+        link: FOOTER_LINKS[sectionId][itemId]!,
       })),
     };
   });

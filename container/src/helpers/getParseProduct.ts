@@ -1,12 +1,9 @@
-import React from "react";
+import type { ProductAPI } from "@container/types/app";
+import type { Product } from "shared-core/sdk";
 
-import { ProductAPI } from "@src/entities/app";
+import { getRandomBetweenWithDecimals } from "@container/helpers/getRandomBetweenWithDecimals";
 
-import { getRandomBetweenWithDecimals } from "@src/helpers/getRandomBetweenWithDecimals";
-
-import { reviews } from "@src/constants/reviews";
-
-import { Product } from "shared_core/SharedCoreEntities";
+import { reviews } from "@container/constants/reviews";
 
 export const getParseProduct = (apiProduct: ProductAPI): Product => {
   return {

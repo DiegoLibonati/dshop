@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", 
+    "esbenp.prettier-vscode",
+    "Vue.volar",
+    "Angular.ng-template",
+    "Orta.vscode-jest",
+    "vitest.explorer",
+    "yoavbls.pretty-ts-errors",
+    "ms-azuretools.vscode-docker", 
+    "github.vscode-github-actions", 
+    "mikestead.dotenv"
+  ],
+}

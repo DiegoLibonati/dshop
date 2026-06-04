@@ -1,0 +1,777 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ============================================================
+  # SHARED-CORE (framework-agnostic base — no sibling deps)
+  # ============================================================
+  shared-core-lint-and-audit:
+    name: Shared Core - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shared-core
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-core/.nvmrc
+          cache: npm
+          cache-dependency-path: shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  shared-core-test:
+    name: Shared Core - Testing
+    runs-on: ubuntu-latest
+    needs: shared-core-lint-and-audit
+    defaults:
+      run:
+        working-directory: shared-core
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-core/.nvmrc
+          cache: npm
+          cache-dependency-path: shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  shared-core-build:
+    name: Shared Core - Build
+    runs-on: ubuntu-latest
+    needs: shared-core-test
+    defaults:
+      run:
+        working-directory: shared-core
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-core/.nvmrc
+          cache: npm
+          cache-dependency-path: shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # SHARED-REACT (depends on shared-core source)
+  # ============================================================
+  shared-react-lint-and-audit:
+    name: Shared React - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shared-react
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-react/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-react/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  shared-react-test:
+    name: Shared React - Testing
+    runs-on: ubuntu-latest
+    needs: shared-react-lint-and-audit
+    defaults:
+      run:
+        working-directory: shared-react
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-react/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-react/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  shared-react-build:
+    name: Shared React - Build
+    runs-on: ubuntu-latest
+    needs: shared-react-test
+    defaults:
+      run:
+        working-directory: shared-react
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-react/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-react/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # SHARED-ANGULAR (depends on shared-core source)
+  # ============================================================
+  shared-angular-lint-and-audit:
+    name: Shared Angular - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shared-angular
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-angular/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-angular/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  shared-angular-test:
+    name: Shared Angular - Testing
+    runs-on: ubuntu-latest
+    needs: shared-angular-lint-and-audit
+    defaults:
+      run:
+        working-directory: shared-angular
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-angular/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-angular/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  shared-angular-build:
+    name: Shared Angular - Build
+    runs-on: ubuntu-latest
+    needs: shared-angular-test
+    defaults:
+      run:
+        working-directory: shared-angular
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: shared-angular/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            shared-angular/package-lock.json
+            shared-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # CONTAINER (React host — depends on shared-core/react/angular)
+  # ============================================================
+  container-lint-and-audit:
+    name: Container - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: container
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: container/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            container/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  container-test:
+    name: Container - Testing
+    runs-on: ubuntu-latest
+    needs: container-lint-and-audit
+    defaults:
+      run:
+        working-directory: container
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: container/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            container/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  container-build:
+    name: Container - Build
+    runs-on: ubuntu-latest
+    needs: container-test
+    defaults:
+      run:
+        working-directory: container
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: container/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            container/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # HOME (React remote — depends on shared-core/react/angular)
+  # ============================================================
+  home-lint-and-audit:
+    name: Home - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: home
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: home/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            home/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  home-test:
+    name: Home - Testing
+    runs-on: ubuntu-latest
+    needs: home-lint-and-audit
+    defaults:
+      run:
+        working-directory: home
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: home/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            home/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  home-build:
+    name: Home - Build
+    runs-on: ubuntu-latest
+    needs: home-test
+    defaults:
+      run:
+        working-directory: home
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: home/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            home/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # PRODUCT-DETAIL (Vue remote — depends on shared-core/react/angular)
+  # ============================================================
+  product-detail-lint-and-audit:
+    name: Product Detail - Lint & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: product-detail
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: product-detail/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            product-detail/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: TypeScript type-check
+        run: npm run type-check
+
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  product-detail-test:
+    name: Product Detail - Testing
+    runs-on: ubuntu-latest
+    needs: product-detail-lint-and-audit
+    defaults:
+      run:
+        working-directory: product-detail
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: product-detail/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            product-detail/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+  product-detail-build:
+    name: Product Detail - Build
+    runs-on: ubuntu-latest
+    needs: product-detail-test
+    defaults:
+      run:
+        working-directory: product-detail
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: product-detail/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            product-detail/package-lock.json
+            shared-core/package-lock.json
+            shared-react/package-lock.json
+            shared-angular/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-core dependencies
+        working-directory: shared-core
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-react dependencies
+        working-directory: shared-react
+        run: npm ci --ignore-scripts
+
+      - name: Install shared-angular dependencies
+        working-directory: shared-angular
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+  # ============================================================
+  # DOCKER - all images in parallel, after every build passes
+  #   dev  -> context = <project>  (Dockerfile.development COPYs from module root)
+  #   prod -> context = .          (Dockerfile.production COPYs from repo root)
+  # ============================================================
+  docker-build:
+    name: Docker Build - ${{ matrix.project }} ${{ matrix.tag }}
+    runs-on: ubuntu-latest
+    needs:
+      - shared-core-build
+      - shared-react-build
+      - shared-angular-build
+      - container-build
+      - home-build
+      - product-detail-build
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: shared-core
+            dockerfile: Dockerfile.development
+            tag: dshop-shared-core:dev
+          - project: shared-core
+            dockerfile: Dockerfile.production
+            tag: dshop-shared-core:prod
+            context: .
+          - project: shared-react
+            dockerfile: Dockerfile.development
+            tag: dshop-shared-react:dev
+          - project: shared-react
+            dockerfile: Dockerfile.production
+            tag: dshop-shared-react:prod
+            context: .
+          - project: shared-angular
+            dockerfile: Dockerfile.development
+            tag: dshop-shared-angular:dev
+          - project: shared-angular
+            dockerfile: Dockerfile.production
+            tag: dshop-shared-angular:prod
+            context: .
+          - project: container
+            dockerfile: Dockerfile.development
+            tag: dshop-container:dev
+          - project: container
+            dockerfile: Dockerfile.production
+            tag: dshop-container:prod
+            context: .
+          - project: home
+            dockerfile: Dockerfile.development
+            tag: dshop-home:dev
+          - project: home
+            dockerfile: Dockerfile.production
+            tag: dshop-home:prod
+            context: .
+          - project: product-detail
+            dockerfile: Dockerfile.development
+            tag: dshop-product-detail:dev
+          - project: product-detail
+            dockerfile: Dockerfile.production
+            tag: dshop-product-detail:prod
+            context: .
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.10.0
+
+      - name: Build ${{ matrix.project }}/${{ matrix.dockerfile }}
+        uses: docker/build-push-action@v6.15.0
+        with:
+          context: ${{ matrix.context || matrix.project }}
+          file: ${{ matrix.project }}/${{ matrix.dockerfile }}
+          push: false
+          tags: ${{ matrix.tag }}

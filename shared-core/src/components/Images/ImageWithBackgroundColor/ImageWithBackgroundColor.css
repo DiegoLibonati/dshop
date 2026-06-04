@@ -1,0 +1,26 @@
+.image-with-background-color-wrapper {
+  width: 100%;
+  height: 12.5rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.image-with-background-color-wrapper--active {
+  border: 0.1rem solid var(--color-black);
+}
+
+.image-with-background-color-wrapper--pointer {
+  cursor: pointer;
+}
+
+.image-with-background-color__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media screen and (width >= 1024px) {
+  .image-with-background-color-wrapper {
+    height: 18.625rem;
+  }
+}

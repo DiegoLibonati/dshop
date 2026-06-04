@@ -1,0 +1,36 @@
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  height: fit-content;
+}
+
+.footer-section__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-black);
+}
+
+.footer-section__link {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-black-60);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media screen and (width >= 1024px) {
+  .footer-section {
+    gap: 1.625rem;
+  }
+
+  .footer-section__title {
+    font-size: 1rem;
+  }
+
+  .footer-section__link {
+    font-size: 1rem;
+  }
+}

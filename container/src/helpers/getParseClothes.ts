@@ -1,10 +1,7 @@
-import React from "react";
+import type { ProductAPI } from "@container/types/app";
+import type { Clothes } from "shared-core/sdk";
 
-import { ProductAPI } from "@src/entities/app";
-
-import { getRandomBetweenWithDecimals } from "@src/helpers/getRandomBetweenWithDecimals";
-
-import { Clothes } from "shared_core/SharedCoreEntities";
+import { getRandomBetweenWithDecimals } from "@container/helpers/getRandomBetweenWithDecimals";
 
 export const getParseClothes = (apiProducts: ProductAPI[]): Clothes[] => {
   return apiProducts.map((apiProduct) => {
@@ -14,7 +11,7 @@ export const getParseClothes = (apiProducts: ProductAPI[]): Clothes[] => {
       name: apiProduct.title,
       price: apiProduct.price,
       rate: getRandomBetweenWithDecimals(1, 5),
-      src: apiProduct.images[0],
+      src: apiProduct.images[0] ?? "",
       description: apiProduct.description,
     };
   });

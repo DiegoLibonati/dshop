@@ -1,17 +1,5 @@
-/* @import url("https://fonts.cdnfonts.com/css/satoshi"); */
+@import "@shared-core/styles/global.css";
 
-:root {
-  /* --primary-font: "Satoshi", Helvetica, sans-serif; */
-}
-
-* {
-
-}
-
-img {
-  
-}
-
-body {
-
+.container-loader-screen {
+  z-index: 9999;
 }

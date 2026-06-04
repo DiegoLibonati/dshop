@@ -1,15 +1,14 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
+import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
 
-import { App } from "@src/App";
+import App from "@container/App";
 
-import { GeneralProvider } from "@src/contexts/GeneralContext";
+import "@container/index.css";
 
-const container = document.getElementById("root") as HTMLElement;
-const root = createRoot(container);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 
 root.render(
-  <GeneralProvider>
-    <App></App>
-  </GeneralProvider>
+  <StrictMode>
+    <App />
+  </StrictMode>
 );

@@ -1,0 +1,27 @@
+#!/bin/sh
+# Pre-commit hook for the MFE monorepo.
+# Runs lint-staged for each package when its files are staged.
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR)
+
+PACKAGES="container home product-detail shared-angular shared-core shared-react"
+
+EXIT_CODE=0
+
+if ! command -v npx > /dev/null; then
+    echo '[pre-commit] `npx` not found. Did you install Node.js?' 1>&2
+    exit 1
+fi
+
+for pkg in $PACKAGES; do
+    PKG_FILES=$(echo "$STAGED_FILES" | grep "^$pkg/")
+
+    if [ -n "$PKG_FILES" ]; then
+        echo "[pre-commit] Running lint-staged for $pkg..."
+        (cd "$REPO_ROOT/$pkg" && npx --no-install lint-staged)
+        EXIT_CODE=$((EXIT_CODE + $?))
+    fi
+done
+
+exit $EXIT_CODE

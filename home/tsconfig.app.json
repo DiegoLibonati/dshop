@@ -1,19 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "noEmit": true,
-    "types": ["node"]
+    "types": ["vite/client"]
   },
   "include": ["src"],
   "exclude": [
     "node_modules",
     "dist",
-    "tests",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/*.stories.tsx"
+    "**/*.spec.tsx"
   ]
 }

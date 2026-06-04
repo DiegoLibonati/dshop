@@ -1,0 +1,25 @@
+.tag-simple {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: auto;
+  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
+  border-radius: 2rem;
+}
+
+.tag-simple--pointer {
+  cursor: pointer;
+}
+
+.tag-simple__text {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+@media screen and (width >= 1024px) {
+  .tag-simple__text {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}

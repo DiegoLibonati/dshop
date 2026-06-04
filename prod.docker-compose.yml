@@ -1,93 +1,89 @@
 name: dshop-prod
+
 services:
-  dshop-container:
+  container:
     build:
       context: .
-      dockerfile: ./container/Dockerfile.production
+      dockerfile: container/Dockerfile.production
+      args:
+        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
+        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
+        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
+        VITE_REMOTE_HOME_URL: ${VITE_REMOTE_HOME_URL:-/mfe/home/remoteEntry.js}
+        VITE_REMOTE_PRODUCT_DETAIL_URL: ${VITE_REMOTE_PRODUCT_DETAIL_URL:-/mfe/product-detail/remoteEntry.js}
     restart: always
-    env_file:
-      - ./container/.env
     ports:
-      - 8080:80
-    depends_on:
-      dshop-home:
-        condition: service_started
+      - 8080:8080
     networks:
       - dshop-prod-net
+    depends_on:
+      - shared-core
+      - shared-react
+      - shared-angular
+      - home
+      - product-detail
 
-  dshop-home:
+  home:
     build:
       context: .
-      dockerfile: ./home/Dockerfile.production
+      dockerfile: home/Dockerfile.production
+      args:
+        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
+        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
+        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
     restart: always
-    env_file:
-      - ./home/.env
-    ports:
-      - 8081:80
-    depends_on:
-      dshop-shared-react:
-        condition: service_started
-      dshop-shared-angular:
-        condition: service_started
     networks:
       - dshop-prod-net
+    depends_on:
+      - shared-core
+      - shared-react
+      - shared-angular
 
-  dshop-product-detail:
+  product-detail:
     build:
       context: .
-      dockerfile: ./product_detail/Dockerfile.production
+      dockerfile: product-detail/Dockerfile.production
+      args:
+        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
+        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
+        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
     restart: always
-    env_file:
-      - ./product_detail/.env
-    ports:
-      - 8085:80
-    depends_on:
-      dshop-shared-react:
-        condition: service_started
-      dshop-shared-angular:
-        condition: service_started
     networks:
       - dshop-prod-net
+    depends_on:
+      - shared-core
+      - shared-react
+      - shared-angular
 
-  dshop-shared-react:
+  shared-react:
     build:
       context: .
-      dockerfile: ./shared_react/Dockerfile.production
+      dockerfile: shared-react/Dockerfile.production
+      args:
+        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
     restart: always
-    env_file:
-      - ./shared_react/.env
-    ports:
-      - 8082:80
-    depends_on:
-      dshop-shared-core:
-        condition: service_started
     networks:
       - dshop-prod-net
+    depends_on:
+      - shared-core
 
-  dshop-shared-angular:
+  shared-angular:
     build:
       context: .
-      dockerfile: ./shared_angular/Dockerfile.production
+      dockerfile: shared-angular/Dockerfile.production
+      args:
+        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
     restart: always
-    env_file:
-      - ./shared_angular/.env
-    ports:
-      - 8083:80
-    depends_on:
-      dshop-shared-core:
-        condition: service_started
     networks:
       - dshop-prod-net
+    depends_on:
+      - shared-core
 
-  dshop-shared-core:
+  shared-core:
     build:
       context: .
-      dockerfile: ./shared_core/Dockerfile.production
+      dockerfile: shared-core/Dockerfile.production
     restart: always
-    env_file:
-      - ./shared_core/.env
-    ports:
-      - 8084:80
     networks:
       - dshop-prod-net
 

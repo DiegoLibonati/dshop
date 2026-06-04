@@ -1,0 +1,70 @@
+{
+  "name": "shared-core",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@module-federation/vite": "^1.15.5",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.0.0",
+    "@types/postcss-prefix-selector": "^1.16.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
+    "globals": "^15.0.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "lint-staged": "^15.0.0",
+    "postcss-prefix-selector": "^2.1.1",
+    "prettier": "^3.0.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.2.2",
+    "@vitejs/plugin-react": "^5.0.2",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^7.1.6",
+    "vite-plugin-css-injected-by-js": "^4.0.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.app.json && vite build",
+    "preview": "vite preview",
+    "type-check": "tsc -p tsconfig.app.json --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "lint:all": "eslint src __tests__ --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "format:all": "prettier --write \"src/**/*.{ts,tsx,css}\" \"__tests__/**/*.{ts,tsx}\"",
+    "test": "jest --verbose",
+    "test:watch": "jest --watchAll --verbose",
+    "test:coverage": "jest --coverage",
+    "prepare": "cd ../ && git config core.hooksPath .githooks"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,json,md}": [
+      "prettier --write"
+    ]
+  }
+}

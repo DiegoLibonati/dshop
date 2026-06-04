@@ -1,18 +1,8 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "types": ["jest", "@testing-library/jest-dom", "node"],
-    "noEmit": true
+    "types": ["jest", "@testing-library/jest-dom", "node"]
   },
-  "include": [
-    "src",
-    "tests",
-    "tests_mocks",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.spec.ts",
-    "**/*.spec.tsx"
-  ],
+  "include": ["src", "__tests__"],
   "exclude": ["node_modules", "dist"]
 }

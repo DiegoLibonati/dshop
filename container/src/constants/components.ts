@@ -1,4 +1,4 @@
-import { FooterSectionId } from "@src/entities/app";
+import type { FooterSectionId } from "@container/types/app";
 
 export const FOOTER_LINKS: Record<FooterSectionId, Record<string, string>> = {
   company: {

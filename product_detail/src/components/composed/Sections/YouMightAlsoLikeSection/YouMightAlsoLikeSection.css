@@ -1,9 +1,0 @@
-.you-might-also-like-section {
-  margin-top: 3.125rem;
-}
-
-@media screen and (width >= 1024px) {
-  .you-might-also-like-section {
-    margin-top: 4rem;
-  }
-}

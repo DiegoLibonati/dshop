@@ -4,166 +4,127 @@ services:
     build:
       context: ./container
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./container/.env
     volumes:
-      - ./container:/home/app:rw
-      - ./shared_core-types:/home/shared_core-types:ro
-      - ./shared_react-types:/home/shared_react-types:ro
-      - ./shared_angular-types:/home/shared_angular-types:ro
-      - ./product_detail-types:/home/product_detail-types:ro
-      - ./home-types:/home/home-types:ro
-      - dshop_container_node_modules:/home/app/node_modules
+      - ./container:/home/app
+      - ./shared-core:/home/shared-core
+      - ./shared-react:/home/shared-react
+      - ./shared-angular:/home/shared-angular
+      - /home/app/node_modules
     ports:
-      - 8080:8080
-    depends_on:
-      dshop-home:
-        condition: service_started
-    command: >
-      sh -c "
-        npm config set install-links true &&
-        npm install &&
-        npm run dev
-      "
+      - 3000:3000
     networks:
       - dshop-dev-net
+    depends_on:
+      - dshop-home
+      - dshop-product-detail
+    stdin_open: true
+    tty: true
 
   dshop-home:
     build:
       context: ./home
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./home/.env
     volumes:
-      - ./home:/home/app:rw
-      - ./shared_core-types:/home/shared_core-types:ro
-      - ./shared_react-types:/home/shared_react-types:ro
-      - ./shared_angular-types:/home/shared_angular-types:ro
-      - dshop_home_node_modules:/home/app/node_modules
+      - ./home:/home/app
+      - ./shared-core:/home/shared-core
+      - ./shared-react:/home/shared-react
+      - ./shared-angular:/home/shared-angular
+      - /home/app/node_modules
     ports:
-      - 8081:8081
-    depends_on:
-      dshop-shared-react:
-        condition: service_started
-      dshop-shared-angular:
-        condition: service_started
-    command: >
-      sh -c "
-        npm config set install-links true &&
-        npm install &&
-        npm run dev
-      "
+      - 3010:3010
     networks:
       - dshop-dev-net
+    depends_on:
+      - dshop-shared-react
+      - dshop-shared-angular
+    stdin_open: true
+    tty: true
 
   dshop-product-detail:
     build:
-      context: ./product_detail
+      context: ./product-detail
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
-      - ./product_detail/.env
+      - ./product-detail/.env
     volumes:
-      - ./product_detail:/home/app:rw
-      - ./shared_core-types:/home/shared_core-types:ro
-      - ./shared_react-types:/home/shared_react-types:ro
-      - ./shared_angular-types:/home/shared_angular-types:ro
-      - dshop_product_detail_node_modules:/home/app/node_modules
+      - ./product-detail:/home/app
+      - ./shared-core:/home/shared-core
+      - ./shared-react:/home/shared-react
+      - ./shared-angular:/home/shared-angular
+      - /home/app/node_modules
     ports:
-      - 8085:8085
-    depends_on:
-      dshop-shared-react:
-        condition: service_started
-      dshop-shared-angular:
-        condition: service_started
-    command: >
-      sh -c "
-        npm config set install-links true &&
-        npm install &&
-        npm run dev
-      "
+      - 3020:3020
     networks:
       - dshop-dev-net
+    depends_on:
+      - dshop-shared-react
+      - dshop-shared-angular
+    stdin_open: true
+    tty: true
 
   dshop-shared-react:
     build:
-      context: ./shared_react
+      context: ./shared-react
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
-      - ./shared_react/.env
+      - ./shared-react/.env
     volumes:
-      - ./shared_react:/home/app:rw
-      - ./shared_core-types:/home/shared_core-types:ro
-      - dshop_shared_react_node_modules:/home/app/node_modules
+      - ./shared-react:/home/app
+      - ./shared-core:/home/shared-core
+      - /home/app/node_modules
     ports:
-      - 8082:8082
-    depends_on:
-      dshop-shared-core:
-        condition: service_started
-    command: >
-      sh -c "
-        npm config set install-links true &&
-        npm install &&
-        npm run dev
-      "
+      - 4010:4010
     networks:
       - dshop-dev-net
+    depends_on:
+      - dshop-shared-core
+    stdin_open: true
+    tty: true
 
   dshop-shared-angular:
     build:
-      context: ./shared_angular
+      context: ./shared-angular
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
-      - ./shared_angular/.env
+      - ./shared-angular/.env
     volumes:
-      - ./shared_angular:/home/app:rw
-      - ./shared_core-types:/home/shared_core-types:ro
-      - dshop_shared_angular_node_modules:/home/app/node_modules
+      - ./shared-angular:/home/app
+      - ./shared-core:/home/shared-core
+      - /home/app/node_modules
     ports:
-      - 8083:8083
-    depends_on:
-      dshop-shared-core:
-        condition: service_started
-    command: >
-      sh -c "
-        npm config set install-links true &&
-        npm install &&
-        npm run dev
-      "
+      - 4020:4020
     networks:
       - dshop-dev-net
+    depends_on:
+      - dshop-shared-core
+    stdin_open: true
+    tty: true
 
   dshop-shared-core:
     build:
-      context: ./shared_core
+      context: ./shared-core
       dockerfile: Dockerfile.development
-    restart: always
+    restart: unless-stopped
     env_file:
-      - ./shared_core/.env
+      - ./shared-core/.env
     volumes:
-      - ./shared_core:/home/app:rw
-      - dshop_shared_core_node_modules:/home/app/node_modules
+      - ./shared-core:/home/app
+      - /home/app/node_modules
     ports:
-      - 8084:8084
-    command: >
-      sh -c "
-        npm install &&
-        npm run dev
-      "
+      - 4000:4000
     networks:
       - dshop-dev-net
+    stdin_open: true
+    tty: true
 
 networks:
   dshop-dev-net:
-
-volumes:
-  dshop_shared_core_node_modules:
-  dshop_shared_react_node_modules:
-  dshop_shared_angular_node_modules:
-  dshop_product_detail_node_modules:
-  dshop_home_node_modules:
-  dshop_container_node_modules:

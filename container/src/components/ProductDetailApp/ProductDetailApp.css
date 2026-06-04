@@ -1,0 +1,9 @@
+.product-detail-wrapper {
+  padding: 2rem 0rem 13.5rem 0rem;
+}
+
+@media screen and (width >= 1024px) {
+  .product-detail-wrapper {
+    padding: 4rem 0rem 15rem 0rem;
+  }
+}

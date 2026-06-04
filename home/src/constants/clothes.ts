@@ -1,4 +1,4 @@
-import { Clothes } from "shared_core/SharedCoreEntities";
+import type { Clothes } from "shared-core/sdk";
 
 export const clothesList: Clothes[] = [
   {

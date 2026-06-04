@@ -1,0 +1,16 @@
+.button-white {
+  width: fit-content;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  cursor: pointer;
+  padding: 0.938rem 0 0.938rem 0;
+  border: none;
+}
+
+.button-white--rounded {
+  border-radius: 2rem;
+}
+
+.button-white--border-gray {
+  border: 0.1rem solid var(--color-black-10);
+}

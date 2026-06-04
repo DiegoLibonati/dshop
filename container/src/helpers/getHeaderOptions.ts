@@ -1,8 +1,7 @@
-import { HeaderOption, HeaderOptionId } from "@src/entities/app";
+import type { HeaderOption, HeaderOptionId } from "@container/types/app";
+import type { Locale } from "shared-core/sdk";
 
-import { lang } from "@src/constants/lang";
-
-import { Locale } from "shared_core/SharedCoreEntities";
+import { lang } from "@container/constants/lang";
 
 export const getHeaderOptions = (lng: Locale): HeaderOption[] => {
   const options = lang[lng].header.options;

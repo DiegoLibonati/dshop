@@ -1,0 +1,15 @@
+.anchor-circular {
+  height: 1.75rem;
+  width: 1.75rem;
+  background-color: var(--color-white);
+  border-radius: 100%;
+  transition: all 1s;
+}
+
+.anchor-circular:hover {
+  background-color: var(--color-black);
+}
+
+.anchor-circular--border-gray {
+  border: 0.1rem solid var(--color-black-20);
+}

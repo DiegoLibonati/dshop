@@ -1,0 +1,28 @@
+.main-home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+.hr-home {
+  height: 0.1rem;
+  width: calc(100% - 2rem);
+  background-color: var(--color-black-10);
+  margin: auto;
+  border: none;
+}
+
+.hr-home-gallery {
+  margin-top: 2.5rem;
+}
+
+@media screen and (width >= 1024px) {
+  .hr-home {
+    width: calc(100% - 13rem);
+  }
+
+  .hr-home-gallery {
+    margin-top: 4rem;
+  }
+}

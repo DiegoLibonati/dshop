@@ -1,4 +1,4 @@
-import { LangC } from "@src/entities/constants";
+import type { LangC } from "@container/types/constants";
 
 export const lang: LangC = {
   en: {

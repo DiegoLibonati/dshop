@@ -1,4 +1,4 @@
-import { Review } from "shared_core/SharedCoreEntities";
+import type { Review } from "shared-core/sdk";
 
 export const reviews: Review[] = [
   {

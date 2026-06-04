@@ -1,0 +1,7 @@
+.remote-mfe__container {
+  display: block;
+}
+
+.remote-mfe__container--hidden {
+  display: none;
+}

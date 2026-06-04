@@ -1,0 +1,78 @@
+:root {
+  /* Colors */
+  --color-white: #ffffff;
+  --color-gray-neutral: #e0e0e0;
+  --color-gray-light-warm: #f2f0f1;
+  --color-gray-light-neutral: #f0f0f0;
+  --color-gray-light-cool: #f0eeed;
+  --color-black: #000000;
+  --color-black-10: #00000010;
+  --color-black-20: #00000020;
+  --color-black-40: #00000040;
+  --color-black-60: #00000060;
+  --color-red-bright: #ff3333;
+  --color-red-bright-10: #ff333310;
+
+  /* Typography */
+  --font-family-primary: Satoshi, Helvetica, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Layout */
+  --header-height: 4rem;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--font-family-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

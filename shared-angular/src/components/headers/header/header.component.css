@@ -1,0 +1,136 @@
+.header {
+  position: relative;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding: 1rem 1.25rem 1rem 1.25rem;
+  background-color: var(--color-white);
+}
+
+.header--fixed {
+  position: fixed;
+}
+
+.header:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  bottom: 0;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 0.1rem;
+  background-color: var(--color-black-10);
+}
+
+.header__btn {
+  background-color: var(--color-white);
+  cursor: pointer;
+  border: none;
+}
+
+.header__logo,
+.header__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header__options {
+  display: none;
+}
+
+:host ::ng-deep .form-search.header__search {
+  display: none;
+}
+
+.header__logo-open,
+.header__action-search,
+.header__action-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+::ng-deep .header__action-cart-icon-wrapper,
+::ng-deep .header__logo-open-icon-wrapper,
+::ng-deep .header__search-btn-icon-wrapper,
+::ng-deep .header__action-search-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .header__logo-open-icon,
+::ng-deep .header__action-search-icon,
+::ng-deep .header__action-cart-icon {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .skeleton-shimmer.header__logo-open-icon-loader,
+::ng-deep .skeleton-shimmer.header__action-search-icon-loader,
+::ng-deep .skeleton-shimmer.header__action-cart-icon-loader {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+}
+
+::ng-deep .skeleton-shimmer.header__search-loader {
+  display: none;
+}
+
+.header__logo {
+  gap: 1rem;
+}
+
+.header__logo-title {
+  font-size: 1.563rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header__actions {
+  gap: 0.75rem;
+}
+
+@media screen and (width >= 1024px) {
+  .header {
+    padding: 1rem 4.25rem 1rem 4.25rem;
+  }
+
+  .header__action-search,
+  .header__logo-open {
+    display: none;
+  }
+
+  .header__logo-title {
+    font-size: 2rem;
+  }
+
+  .header__options {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .header__options {
+    gap: 1.5rem;
+  }
+
+  :host ::ng-deep .form-search.header__search {
+    display: flex;
+    width: 21.875rem;
+  }
+
+  ::ng-deep .skeleton-shimmer.header__search-loader {
+    display: block;
+    width: 21.875rem;
+    height: 2.625rem;
+    border-radius: 2rem;
+  }
+}

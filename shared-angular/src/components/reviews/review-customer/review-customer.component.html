@@ -1,0 +1,21 @@
+<div class="review-customer" [ngClass]="className">
+  <app-shared-mfe
+    [loader]="loadRateStars"
+    [componentProps]="{
+      max: maxStars,
+      value: valueStars,
+      inColor: inColorStars,
+      outColor: outColorStars,
+      language: language,
+      className: 'review-customer__rate-stars',
+      classNameStar: 'review-customer__rate-star',
+    }"
+    [loadingClass]="'review-customer__rate-stars-loader'"
+  ></app-shared-mfe>
+
+  <h2 class="review-customer__name">{{ name }}</h2>
+
+  <p class="review-customer__description review-customer__description--limit-4">
+    {{ description }}
+  </p>
+</div>

@@ -2,6 +2,12 @@
   display: none !important;
 }
 
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
 .menu-header__options {
   display: flex;
   flex-wrap: nowrap;

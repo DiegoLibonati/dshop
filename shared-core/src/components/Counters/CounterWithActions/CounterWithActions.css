@@ -1,0 +1,42 @@
+.counter-with-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 1rem;
+  height: 2.75rem;
+  width: fit-content;
+  background-color: var(--color-gray-light-neutral);
+  padding: 0.75rem;
+  border-radius: 2rem;
+}
+
+.counter-with-actions__action {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-black);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.counter-with-actions__count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-black);
+}
+
+@media screen and (width >= 1024px) {
+  .counter-with-actions {
+    gap: 2.5rem;
+    padding: 0.875rem;
+  }
+
+  .counter-with-actions__action {
+    font-size: 1.75rem;
+  }
+
+  .counter-with-actions__count {
+    font-size: 1rem;
+  }
+}
