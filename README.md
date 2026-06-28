@@ -362,7 +362,7 @@ VITE_API_URL=https://api.escuelajs.co
 WATCHPACK_POLLING=true
 ```
 
-**`.env` (root) — production / Nginx** (copy of `.env.example`): the remote URLs point to the Nginx-served paths instead of localhost ports.
+**`.env` (root) — production / Nginx** (copy of `.env.example`): the remote URLs point to the Nginx-served paths instead of localhost ports, and `APP_PORT` sets the host port the production stack is published on.
 
 ```
 VITE_REMOTE_HOME_URL=/mfe/home/remoteEntry.js
@@ -370,6 +370,8 @@ VITE_REMOTE_PRODUCT_DETAIL_URL=/mfe/product-detail/remoteEntry.js
 VITE_REMOTE_SHARED_CORE_URL=/mfe/shared-core/remoteEntry.js
 VITE_REMOTE_SHARED_REACT_URL=/mfe/shared-react/remoteEntry.js
 VITE_REMOTE_SHARED_ANGULAR_URL=/mfe/shared-angular/remoteEntry.js
+
+APP_PORT=8180
 ```
 
 Key reference:
@@ -379,6 +381,7 @@ Key reference:
 - `VITE_APP_NAME`: identifier the host MFE reports.
 - `VITE_REDIRECT_IF_ROUTE_NOT_EXISTS`: when `true`, unknown routes redirect to home.
 - `WATCHPACK_POLLING`: enables file-watch polling so hot-reload works inside Docker.
+- `APP_PORT`: host port the production `container` service is published on (defaults to `8180`); used only by `prod.docker-compose.yml`.
 
 > Each remote MFE also ships its own example env file (`.example.env`) following the same `VITE_*` convention; copy it to `.env` if you run that MFE standalone.
 
@@ -418,7 +421,12 @@ With the app booting from the variables above, you can validate each MFE indepen
 
 ## Continuous Integration
 
-Beyond the local suites above, the repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch, so the same checks you can run locally are enforced on every change. The pipeline is **validation-only**: it lints, tests, builds and smoke-builds the Docker images, but it does **not** publish artifacts or create releases.
+Beyond the local suites above, the repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch, so the same checks you can run locally are enforced on every change.
+
+The pipeline behaves differently depending on the trigger:
+
+- On **pull requests** it is **validation-only** — it lints, tests, builds and smoke-builds the Docker images, but does **not** publish anything.
+- On **push to `main`** it goes further: it **publishes the six production images to GHCR** (`ghcr.io/diegolibonati/dshop-<mfe>`) and then **deploys the stack to the server** over SSH (see [Deployment](#deployment)).
 
 ### Pipeline overview
 
@@ -434,12 +442,20 @@ Beyond the local suites above, the repository ships with a **GitHub Actions** pi
   └────────────────────┘   └──────────────┘   └──────────────┘
                                                       │
                               (after the 6 builds pass)
-                                                      ▼
-                                       ┌───────────────────────────┐
-                                       │        docker-build        │
-                                       │ 12-image matrix (dev+prod) │
-                                       │ buildx · push: false       │
-                                       └───────────────────────────┘
+                       ┌──────────────────────────────┴───────────────┐
+                       ▼                                               ▼
+         ┌───────────────────────────┐             ┌───────────────────────────┐
+         │      docker-build-dev      │             │     docker-publish-prod    │
+         │  6 dev images · smoke test │             │  6 prod images · buildx    │
+         │       buildx · push:false  │             │  push to GHCR (main only)  │
+         └───────────────────────────┘             └─────────────┬─────────────┘
+                                                                  │  (push to main)
+                                                                  ▼
+                                                    ┌───────────────────────────┐
+                                                    │           deploy           │
+                                                    │  scp compose · ssh into    │
+                                                    │  server · compose pull/up  │
+                                                    └───────────────────────────┘
 ```
 
 ### Validation jobs (run for every microfrontend)
@@ -450,11 +466,15 @@ Each MFE runs its own three-stage chain; the six chains run in parallel. Every j
 2. **`<mfe>-test`** — `npm test` (Jest, or Vitest for Product Detail). Depends on `lint-and-audit`.
 3. **`<mfe>-build`** — `npm run build` (`vite build`). Depends on `test`.
 
-### Docker build job
+### Docker & deploy jobs
 
-4. **`docker-build`** — waits for all six `*-build` jobs, then builds **12 images** through a matrix (a `development` and a `production` image per MFE) with Docker Buildx. Images are built but **not pushed** (`push: false`) — a build smoke test only. Development images use the module folder as the build context (`Dockerfile.development`); production images use the repository root (`Dockerfile.production`).
+Both Docker jobs wait for all six `*-build` jobs and then run their own 6-way matrix in parallel.
 
-> Superseded runs on the same ref are cancelled automatically (`concurrency`), and the workflow runs with read-only permissions (`contents: read`).
+4. **`docker-build-dev`** — builds the six **development** images with Docker Buildx using each module folder as the build context (`Dockerfile.development`). Images are built but **not pushed** (`push: false`) — a build smoke test only. Runs on every trigger (push and PR).
+5. **`docker-publish-prod`** — builds the six **production** images from the repository root (`Dockerfile.production`), baking the federation URLs (`VITE_REMOTE_*_URL`) as build args. On **push to `main`** it logs in to GHCR and **pushes** each image as `ghcr.io/diegolibonati/dshop-<mfe>:latest` and `:sha-<commit>` (GitHub Actions cache enabled). On pull requests it builds without pushing. Requires `packages: write` permission.
+6. **`deploy`** — runs only on **push to `main`** (guarded by `if`, `environment: production`). It copies `prod.docker-compose.yml` to the server with `scp`, then over SSH runs `docker compose pull`, `up -d` and `docker image prune -f`. A dedicated `deploy-production` concurrency group (with `cancel-in-progress: false`) prevents overlapping deploys. See [Deployment](#deployment) for the required secrets.
+
+> Superseded runs on the same ref are cancelled automatically (`concurrency`). The workflow runs read-only by default (`contents: read`); only `docker-publish-prod` is granted `packages: write` to push to GHCR.
 
 ### Running the same checks locally
 
@@ -473,6 +493,40 @@ To run the test suites across all MFEs at once, use the helper script from the r
 
 ```bash
 ./run-tests.sh
+```
+
+## Deployment
+
+Production runs entirely from images published to **GitHub Container Registry (GHCR)** — the server never builds from source. The [`prod.docker-compose.yml`](prod.docker-compose.yml) stack pulls one image per microfrontend (`ghcr.io/diegolibonati/dshop-<mfe>:latest`) onto a private `dshop-prod-net` network. Only the **`container`** service is published to the host; its Nginx reverse-proxies every other MFE under `/mfe/<mfe>/`, so the remotes stay internal (no published ports).
+
+### How it works
+
+1. A push to `main` triggers the `docker-publish-prod` job, which builds and pushes the six production images to GHCR (`:latest` and `:sha-<commit>`).
+2. The `deploy` job then copies `prod.docker-compose.yml` to the server and runs `docker compose pull && docker compose up -d` over SSH, so the server only ever pulls pre-built images.
+
+### Published port
+
+Only the `container` service exposes a port. It maps the host port **`APP_PORT` (default `8180`)** to the container's internal Nginx port `8080`:
+
+```yaml
+ports:
+  - "${APP_PORT:-8180}:8080"
+```
+
+Override it by setting `APP_PORT` in the server's `.env` (or environment) next to the compose file. The app is then reachable at `http://<host>:8180`.
+
+### Required setup
+
+- **Repository secrets** (Settings → Secrets and variables → Actions): `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `DEPLOY_PATH`, and optionally `SSH_PORT` (defaults to `22`). `GITHUB_TOKEN` is provided automatically and is used to push images to GHCR.
+- **GHCR read access on the server**: `docker compose pull` must be able to read the six packages. Either make the GHCR packages **public**, or run `docker login ghcr.io` once on the server with a PAT that has `read:packages`. Packages are created **private** on the first push to `main`.
+
+### Running the prod stack manually
+
+From the directory holding `prod.docker-compose.yml` (after authenticating to GHCR if the packages are private):
+
+```bash
+docker compose -f prod.docker-compose.yml pull
+docker compose -f prod.docker-compose.yml up -d
 ```
 
 ## Security Audit
@@ -509,7 +563,7 @@ None at the moment.
 
 ```ts
 APP VERSION: 1.0.0
-README UPDATED: 04/06/2026
+README UPDATED: 28/06/2026
 AUTHOR: Diego Libonati
 ```
 

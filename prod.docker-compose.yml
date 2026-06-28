@@ -2,18 +2,10 @@ name: dshop-prod
 
 services:
   container:
-    build:
-      context: .
-      dockerfile: container/Dockerfile.production
-      args:
-        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
-        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
-        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
-        VITE_REMOTE_HOME_URL: ${VITE_REMOTE_HOME_URL:-/mfe/home/remoteEntry.js}
-        VITE_REMOTE_PRODUCT_DETAIL_URL: ${VITE_REMOTE_PRODUCT_DETAIL_URL:-/mfe/product-detail/remoteEntry.js}
+    image: ghcr.io/diegolibonati/dshop-container:latest
     restart: always
     ports:
-      - 8080:8080
+      - "${APP_PORT:-8180}:8080"
     networks:
       - dshop-prod-net
     depends_on:
@@ -22,15 +14,15 @@ services:
       - shared-angular
       - home
       - product-detail
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   home:
-    build:
-      context: .
-      dockerfile: home/Dockerfile.production
-      args:
-        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
-        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
-        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
+    image: ghcr.io/diegolibonati/dshop-home:latest
     restart: always
     networks:
       - dshop-prod-net
@@ -40,13 +32,7 @@ services:
       - shared-angular
 
   product-detail:
-    build:
-      context: .
-      dockerfile: product-detail/Dockerfile.production
-      args:
-        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
-        VITE_REMOTE_SHARED_REACT_URL: ${VITE_REMOTE_SHARED_REACT_URL:-/mfe/shared-react/remoteEntry.js}
-        VITE_REMOTE_SHARED_ANGULAR_URL: ${VITE_REMOTE_SHARED_ANGULAR_URL:-/mfe/shared-angular/remoteEntry.js}
+    image: ghcr.io/diegolibonati/dshop-product-detail:latest
     restart: always
     networks:
       - dshop-prod-net
@@ -56,11 +42,7 @@ services:
       - shared-angular
 
   shared-react:
-    build:
-      context: .
-      dockerfile: shared-react/Dockerfile.production
-      args:
-        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
+    image: ghcr.io/diegolibonati/dshop-shared-react:latest
     restart: always
     networks:
       - dshop-prod-net
@@ -68,11 +50,7 @@ services:
       - shared-core
 
   shared-angular:
-    build:
-      context: .
-      dockerfile: shared-angular/Dockerfile.production
-      args:
-        VITE_REMOTE_SHARED_CORE_URL: ${VITE_REMOTE_SHARED_CORE_URL:-/mfe/shared-core/remoteEntry.js}
+    image: ghcr.io/diegolibonati/dshop-shared-angular:latest
     restart: always
     networks:
       - dshop-prod-net
@@ -80,9 +58,7 @@ services:
       - shared-core
 
   shared-core:
-    build:
-      context: .
-      dockerfile: shared-core/Dockerfile.production
+    image: ghcr.io/diegolibonati/dshop-shared-core:latest
     restart: always
     networks:
       - dshop-prod-net
