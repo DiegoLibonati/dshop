@@ -453,8 +453,8 @@ The pipeline behaves differently depending on the trigger:
                                                                   ▼
                                                     ┌───────────────────────────┐
                                                     │           deploy           │
-                                                    │  scp compose · ssh into    │
-                                                    │  server · compose pull/up  │
+                                                    │  cloudflared tunnel · scp  │
+                                                    │  compose · ssh · pull/up   │
                                                     └───────────────────────────┘
 ```
 
@@ -472,7 +472,7 @@ Both Docker jobs wait for all six `*-build` jobs and then run their own 6-way ma
 
 4. **`docker-build-dev`** — builds the six **development** images with Docker Buildx using each module folder as the build context (`Dockerfile.development`). Images are built but **not pushed** (`push: false`) — a build smoke test only. Runs on every trigger (push and PR).
 5. **`docker-publish-prod`** — builds the six **production** images from the repository root (`Dockerfile.production`), baking the federation URLs (`VITE_REMOTE_*_URL`) as build args. On **push to `main`** it logs in to GHCR and **pushes** each image as `ghcr.io/diegolibonati/dshop-<mfe>:latest` and `:sha-<commit>` (GitHub Actions cache enabled). On pull requests it builds without pushing. Requires `packages: write` permission.
-6. **`deploy`** — runs only on **push to `main`** (guarded by `if`, `environment: production`). It copies `prod.docker-compose.yml` to the server with `scp`, then over SSH runs `docker compose pull`, `up -d` and `docker image prune -f`. A dedicated `deploy-production` concurrency group (with `cancel-in-progress: false`) prevents overlapping deploys. See [Deployment](#deployment) for the required secrets.
+6. **`deploy`** — runs only on **push to `main`** (guarded by `if`, `environment: production`). It reaches the server over a **Cloudflare Access SSH tunnel**: it installs `cloudflared` (pinned to `2026.5.1`, since `2026.6.x` has a service-token bug), writes the SSH key plus an SSH config whose `ProxyCommand` runs `cloudflared access ssh` with the Cloudflare service-token secrets, then uses native `scp`/`ssh` to copy `prod.docker-compose.yml` and run `docker compose pull`, `up -d` and `docker image prune -f`. A dedicated `deploy-production` concurrency group (with `cancel-in-progress: false`) prevents overlapping deploys. See [Deployment](#deployment) for the required secrets.
 
 > Superseded runs on the same ref are cancelled automatically (`concurrency`). The workflow runs read-only by default (`contents: read`); only `docker-publish-prod` is granted `packages: write` to push to GHCR.
 
@@ -502,7 +502,7 @@ Production runs entirely from images published to **GitHub Container Registry (G
 ### How it works
 
 1. A push to `main` triggers the `docker-publish-prod` job, which builds and pushes the six production images to GHCR (`:latest` and `:sha-<commit>`).
-2. The `deploy` job then copies `prod.docker-compose.yml` to the server and runs `docker compose pull && docker compose up -d` over SSH, so the server only ever pulls pre-built images.
+2. The `deploy` job then opens a **Cloudflare Access SSH tunnel** (`cloudflared` as the SSH `ProxyCommand`), copies `prod.docker-compose.yml` to the server and runs `docker compose pull && docker compose up -d` over that tunnel, so the server never needs a publicly exposed SSH port and only ever pulls pre-built images.
 
 ### Published port
 
@@ -517,7 +517,8 @@ Override it by setting `APP_PORT` in the server's `.env` (or environment) next t
 
 ### Required setup
 
-- **Repository secrets** (Settings → Secrets and variables → Actions): `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `DEPLOY_PATH`, and optionally `SSH_PORT` (defaults to `22`). `GITHUB_TOKEN` is provided automatically and is used to push images to GHCR.
+- **Repository secrets** (Settings → Secrets and variables → Actions): `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `DEPLOY_PATH`, plus the Cloudflare Access service-token pair `CF_ACCESS_CLIENT_ID` and `CF_ACCESS_CLIENT_SECRET` (used by `cloudflared` to tunnel SSH). `GITHUB_TOKEN` is provided automatically and is used to push images to GHCR.
+- **Cloudflare Access**: the server's SSH must sit behind a Cloudflare Access application, and the service token above must be authorized for it. The deploy job pins `cloudflared` to `2026.5.1` because `2026.6.x` ships a service-token authentication bug.
 - **GHCR read access on the server**: `docker compose pull` must be able to read the six packages. Either make the GHCR packages **public**, or run `docker login ghcr.io` once on the server with a PAT that has `read:packages`. Packages are created **private** on the first push to `main`.
 
 ### Running the prod stack manually

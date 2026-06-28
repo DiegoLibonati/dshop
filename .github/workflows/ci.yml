@@ -817,30 +817,39 @@ jobs:
     concurrency:
       group: deploy-production
       cancel-in-progress: false
-
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Copy compose file to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          source: prod.docker-compose.yml
-          target: ${{ secrets.DEPLOY_PATH }}
+      - name: Install cloudflared (pinned 2026.5.1 — service-token bug in 2026.6.x)
+        run: |
+          curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2026.5.1/cloudflared-linux-amd64.deb -o cloudflared.deb
+          sudo dpkg -i cloudflared.deb
+          cloudflared --version
 
-      - name: Pull images & restart stack
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          script: |
-            set -e
-            cd "${{ secrets.DEPLOY_PATH }}"
-            docker compose -f prod.docker-compose.yml pull
-            docker compose -f prod.docker-compose.yml up -d
-            docker image prune -f
+      - name: Setup SSH key and config
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          cat > ~/.ssh/config <<EOF
+          Host deploy-target
+            HostName ${{ secrets.SSH_HOST }}
+            User ${{ secrets.SSH_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${{ secrets.CF_ACCESS_CLIENT_ID }} --service-token-secret ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+            StrictHostKeyChecking accept-new
+          EOF
+          chmod 600 ~/.ssh/config
+
+      - name: Copy compose file to server
+        run: scp prod.docker-compose.yml deploy-target:"${{ secrets.DEPLOY_PATH }}/"
+
+      - name: Pull image & restart container
+        run: |
+          ssh deploy-target <<'ENDSSH'
+          set -e
+          cd "${{ secrets.DEPLOY_PATH }}"
+          docker compose -f prod.docker-compose.yml pull
+          docker compose -f prod.docker-compose.yml up -d
+          docker image prune -f
+          ENDSSH
